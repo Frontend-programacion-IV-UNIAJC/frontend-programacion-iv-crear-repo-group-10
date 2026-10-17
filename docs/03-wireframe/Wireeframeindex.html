@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SaborU — Wireframes de las seis pantallas</title>
+<style>
+  :root {
+    --tinta: #1b2233;
+    --suave: #5a6478;
+    --borde: #c9d0de;
+    --relleno: #eef1f7;
+    --relleno2: #e2e7f1;
+    --marca: #b4451f;
+    --papel: #ffffff;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    color: var(--tinta);
+    background: #f7f8fb;
+    line-height: 1.6;
+  }
+
+  .envoltura { max-width: 1180px; margin: 0 auto; padding: 32px 20px 80px; }
+
+  header.principal { border-bottom: 2px solid var(--tinta); padding-bottom: 20px; margin-bottom: 28px; }
+  header.principal h1 { font-size: 1.9rem; margin: 0 0 6px; }
+  header.principal p { margin: 0; color: var(--suave); font-size: 0.95rem; }
+
+  .leyenda {
+    display: flex; flex-wrap: wrap; gap: 20px;
+    background: #fff; border: 1px solid var(--borde); border-radius: 10px;
+    padding: 14px 18px; margin-bottom: 28px; font-size: 0.85rem; color: var(--suave);
+  }
+  .leyenda span { display: flex; align-items: center; gap: 8px; }
+  .muestra { width: 26px; height: 14px; border: 1px solid var(--borde); background: var(--relleno); border-radius: 3px; }
+  .muestra.img { background:
+      linear-gradient(45deg, transparent 46%, var(--borde) 46%, var(--borde) 54%, transparent 54%),
+      linear-gradient(-45deg, transparent 46%, var(--borde) 46%, var(--borde) 54%, transparent 54%),
+      var(--relleno); }
+  .muestra.txt { background: none; border: none; }
+  .muestra.txt i { display: block; height: 3px; background: var(--borde); border-radius: 2px; margin: 3px 0; }
+
+  h2.seccion {
+    font-size: 1.25rem; margin: 44px 0 4px; padding-top: 20px;
+    border-top: 1px solid var(--borde);
+  }
+  h2.seccion:first-of-type { border-top: none; padding-top: 0; }
+  .proposito { margin: 0 0 18px; color: var(--suave); font-size: 0.92rem; }
+
+  .par { display: grid; grid-template-columns: 300px 1fr; gap: 28px; align-items: start; }
+  @media (max-width: 860px) { .par { grid-template-columns: 1fr; } }
+
+  .marco { background: #fff; border: 2px solid var(--tinta); border-radius: 10px; overflow: hidden; }
+  .marco .etiqueta {
+    font-size: 0.72rem; letter-spacing: 1px; text-transform: uppercase;
+    color: var(--suave); background: #fff; border-bottom: 1px solid var(--borde);
+    padding: 6px 10px;
+  }
+  .lienzo { padding: 10px; }
+
+  /* Piezas del wireframe */
+  .barra { background: var(--relleno2); border: 1px solid var(--borde); border-radius: 4px; padding: 8px 10px; font-size: 0.72rem; color: var(--suave); }
+  .barra.alta { padding: 14px 10px; }
+  .fila { display: flex; gap: 8px; align-items: center; }
+  .crece { flex: 1; }
+
+  .img {
+    background:
+      linear-gradient(45deg, transparent 48%, var(--borde) 48%, var(--borde) 52%, transparent 52%),
+      linear-gradient(-45deg, transparent 48%, var(--borde) 48%, var(--borde) 52%, transparent 52%),
+      var(--relleno);
+    border: 1px solid var(--borde); border-radius: 4px;
+  }
+  .img.r16-9 { aspect-ratio: 16 / 9; }
+  .img.r1-1 { aspect-ratio: 1 / 1; }
+
+  .linea { height: 8px; background: var(--relleno2); border-radius: 3px; margin: 6px 0; }
+  .linea.corta { width: 45%; }
+  .linea.media { width: 70%; }
+  .linea.titulo { height: 12px; background: var(--borde); width: 80%; }
+
+  .tarjeta { border: 1px solid var(--borde); border-radius: 6px; padding: 8px; background: #fff; }
+  .rejilla-1 { display: grid; grid-template-columns: 1fr; gap: 10px; }
+  .rejilla-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .rejilla-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
+
+  .chip { display: inline-block; border: 1px solid var(--borde); border-radius: 999px; padding: 3px 10px; font-size: 0.68rem; color: var(--suave); background: #fff; }
+  .boton { background: var(--marca); color: #fff; border-radius: 4px; padding: 8px 12px; font-size: 0.72rem; text-align: center; }
+  .boton.secundario { background: #fff; color: var(--marca); border: 1px solid var(--marca); }
+  .nota { font-size: 0.7rem; color: var(--suave); }
+  .corazon { width: 22px; height: 22px; border: 1px solid var(--borde); border-radius: 4px; display: grid; place-items: center; font-size: 0.7rem; color: var(--suave); }
+
+  .lateral { display: grid; grid-template-columns: 170px 1fr; gap: 14px; }
+
+  .apunte {
+    background: #fff; border-left: 3px solid var(--marca); border-radius: 0 6px 6px 0;
+    padding: 10px 14px; margin-top: 14px; font-size: 0.85rem; color: var(--suave);
+  }
+  .apunte strong { color: var(--tinta); }
+
+  .estados { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 10px; }
+  @media (max-width: 860px) { .estados { grid-template-columns: repeat(2, 1fr); } }
+
+  footer.pie { margin-top: 56px; border-top: 1px solid var(--borde); padding-top: 18px; font-size: 0.85rem; color: var(--suave); }
+</style>
+</head>
+<body>
+<div class="envoltura">
+
+  <header class="principal">
+    <h1>SaborU — Wireframes de las seis pantallas</h1>
+    <p>Proyecto demo de Programación IV. Sesión 2: estructura y jerarquía, sin decisiones visuales definitivas.</p>
+  </header>
+
+  <div class="leyenda">
+    <span><i class="muestra img"></i> Imagen</span>
+    <span><i class="muestra"></i> Bloque o control</span>
+    <span><i class="muestra txt"><i></i><i></i></i> Texto</span>
+    <span>Izquierda: móvil 375 px · Derecha: escritorio 1440 px</span>
+  </div>
+
+  <!-- 1. INICIO -->
+  <h2 class="seccion">1. Inicio</h2>
+  <p class="proposito">Responde: qué es esto y para quién. Objetivo único: llevar al catálogo.</p>
+  <div class="par">
+
+    <div class="marco">
+      <div class="etiqueta">Móvil · 375 px</div>
+      <div class="lienzo">
+        <div class="barra fila"><span class="crece">SaborU</span><span>≡</span></div>
+        <div style="height:10px"></div>
+        <div class="linea titulo"></div>
+        <div class="linea media"></div>
+        <div class="linea corta"></div>
+        <div style="height:8px"></div>
+        <div class="boton">Ver el catálogo</div>
+        <div style="height:12px"></div>
+        <div class="nota">Destacadas</div>
+        <div class="rejilla-1" style="margin-top:6px">
+          <div class="tarjeta"><div class="img r16-9"></div><div class="linea titulo"></div><div class="linea corta"></div></div>
+          <div class="tarjeta"><div class="img r16-9"></div><div class="linea titulo"></div><div class="linea corta"></div></div>
+        </div>
+        <div style="height:10px"></div>
+        <div class="barra">Pie</div>
+      </div>
+    </div>
+
+    <div class="marco">
+      <div class="etiqueta">Escritorio · 1440 px</div>
+      <div class="lienzo">
+        <div class="barra fila">
+          <span class="crece">SaborU</span>
+          <span class="nota">Inicio · Catálogo · Favoritos · Contacto · Acerca de</span>
+        </div>
+        <div style="height:14px"></div>
+        <div class="fila" style="gap:20px; align-items:flex-start">
+          <div class="crece">
+            <div class="linea titulo" style="height:16px"></div>
+            <div class="linea media"></div>
+            <div class="linea"></div>
+            <div class="linea corta"></div>
+            <div style="height:10px"></div>
+            <div class="fila" style="gap:10px">
+              <div class="boton" style="width:160px">Ver el catálogo</div>
+              <div class="boton secundario" style="width:150px">Receta aleatoria</div>
+            </div>
+          </div>
+          <div style="width:42%"><div class="img r16-9"></div></div>
+        </div>
+        <div style="height:18px"></div>
+        <div class="nota">Destacadas</div>
+        <div class="rejilla-3" style="margin-top:8px">
+          <div class="tarjeta"><div class="img r16-9"></div><div class="linea titulo"></div><div class="linea corta"></div></div>
+          <div class="tarjeta"><div class="img r16-9"></div><div class="linea titulo"></div><div class="linea corta"></div></div>
+          <div class="tarjeta"><div class="img r16-9"></div><div class="linea titulo"></div><div class="linea corta"></div></div>
+        </div>
+        <div style="height:14px"></div>
+        <div class="barra">Pie · Créditos de TheMealDB</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="apunte"><strong>Decisión:</strong> en móvil el llamado a la acción va antes de las destacadas, porque el usuario que llega con hambre no viene a explorar: viene a buscar. En escritorio caben los dos a la vez.</div>
+
+  <!-- 2. CATÁLOGO -->
+  <h2 class="seccion">2. Catálogo</h2>
+  <p class="proposito">Responde: qué hay disponible. Es la pantalla más usada del producto.</p>
+  <div class="par">
+
+    <div class="marco">
+      <div class="etiqueta">Móvil · 375 px</div>
+      <div class="lienzo">
+        <div class="barra fila"><span class="crece">SaborU</span><span>≡</span></div>
+        <div style="height:8px"></div>
+        <div class="barra alta">Buscar receta</div>
+        <div style="height:8px"></div>
+        <div class="fila" style="gap:6px; overflow:hidden">
+          <span class="chip">Todas</span><span class="chip">Pollo</span><span class="chip">Pasta</span><span class="chip">Postre</span>
+        </div>
+        <div style="height:10px"></div>
+        <div class="rejilla-1">
+          <div class="tarjeta">
+            <div class="img r16-9"></div>
+            <div class="fila" style="margin-top:6px"><div class="linea titulo crece"></div><div class="corazon">fav</div></div>
+            <div class="linea corta"></div>
+            <div class="nota">25 min aprox. · Fácil</div>
+          </div>
+          <div class="tarjeta">
+            <div class="img r16-9"></div>
+            <div class="fila" style="margin-top:6px"><div class="linea titulo crece"></div><div class="corazon">fav</div></div>
+            <div class="linea corta"></div>
+            <div class="nota">40 min aprox. · Media</div>
+          </div>
+          <div class="tarjeta" style="opacity:.5">
+            <div class="img r16-9" style="height:30px"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="marco">
+      <div class="etiqueta">Escritorio · 1440 px</div>
+      <div class="lienzo">
+        <div class="barra fila">
+          <span class="crece">SaborU</span>
+          <span class="nota">Inicio · Catálogo · Favoritos · Contacto · Acerca de</span>
+        </div>
+        <div style="height:12px"></div>
+        <div class="lateral">
+          <div>
+            <div class="barra alta">Buscar receta</div>
+            <div style="height:10px"></div>
+            <div class="nota">Categoría</div>
+            <div class="linea"></div><div class="linea"></div><div class="linea"></div><div class="linea corta"></div>
+            <div style="height:10px"></div>
+            <div class="nota">Ingrediente</div>
+            <div class="linea"></div><div class="linea corta"></div>
+          </div>
+          <div>
+            <div class="nota">36 recetas encontradas</div>
+            <div class="rejilla-3" style="margin-top:8px">
+              <div class="tarjeta"><div class="img r16-9"></div><div class="fila" style="margin-top:6px"><div class="linea titulo crece"></div><div class="corazon">fav</div></div><div class="linea corta"></div><div class="nota">25 min · Fácil</div></div>
+              <div class="tarjeta"><div class="img r16-9"></div><div class="fila" style="margin-top:6px"><div class="linea titulo crece"></div><div class="corazon">fav</div></div><div class="linea corta"></div><div class="nota">40 min · Media</div></div>
+              <div class="tarjeta"><div class="img r16-9"></div><div class="fila" style="margin-top:6px"><div class="linea titulo crece"></div><div class="corazon">fav</div></div><div class="linea corta"></div><div class="nota">15 min · Fácil</div></div>
+              <div class="tarjeta"><div class="img r16-9"></div><div class="fila" style="margin-top:6px"><div class="linea titulo crece"></div><div class="corazon">fav</div></div><div class="linea corta"></div><div class="nota">30 min · Media</div></div>
+              <div class="tarjeta"><div class="img r16-9"></div><div class="fila" style="margin-top:6px"><div class="linea titulo crece"></div><div class="corazon">fav</div></div><div class="linea corta"></div><div class="nota">20 min · Fácil</div></div>
+              <div class="tarjeta"><div class="img r16-9"></div><div class="fila" style="margin-top:6px"><div class="linea titulo crece"></div><div class="corazon">fav</div></div><div class="linea corta"></div><div class="nota">50 min · Difícil</div></div>
+            </div>
+            <div style="height:12px"></div>
+            <div class="fila" style="justify-content:center; gap:8px">
+              <span class="chip">Anterior</span><span class="chip">1</span><span class="chip">2</span><span class="chip">3</span><span class="chip">Siguiente</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="apunte"><strong>Decisión:</strong> los filtros pasan de una fila desplazable en móvil a una barra lateral en escritorio. No es la misma pantalla estirada: el espacio lateral que aparece se usa para que los filtros estén siempre visibles.</div>
+
+  <!-- LOS CUATRO ESTADOS -->
+  <h2 class="seccion">2b. Los cuatro estados del catálogo</h2>
+  <p class="proposito">La pantalla existe en cuatro versiones. Diseñar solo la segunda es diseñar la cuarta parte.</p>
+  <div class="estados">
+
+    <div class="marco">
+      <div class="etiqueta">Cargando</div>
+      <div class="lienzo">
+        <div class="barra">Buscar receta</div>
+        <div style="height:8px"></div>
+        <div class="tarjeta" style="opacity:.55"><div class="img r16-9"></div><div class="linea titulo"></div><div class="linea corta"></div></div>
+        <div class="tarjeta" style="opacity:.35; margin-top:8px"><div class="img r16-9"></div><div class="linea titulo"></div></div>
+        <div class="nota" style="margin-top:8px; text-align:center">Buscando recetas…</div>
+      </div>
+    </div>
+
+    <div class="marco">
+      <div class="etiqueta">Con datos</div>
+      <div class="lienzo">
+        <div class="barra">Buscar receta</div>
+        <div style="height:8px"></div>
+        <div class="tarjeta"><div class="img r16-9"></div><div class="linea titulo"></div><div class="linea corta"></div></div>
+        <div class="tarjeta" style="margin-top:8px"><div class="img r16-9"></div><div class="linea titulo"></div><div class="linea corta"></div></div>
+      </div>
+    </div>
+
+    <div class="marco">
+      <div class="etiqueta">Vacío</div>
+      <div class="lienzo">
+        <div class="barra">Buscar receta</div>
+        <div style="height:24px"></div>
+        <div style="text-align:center">
+          <div class="nota" style="font-size:1.4rem">( )</div>
+          <div class="linea titulo" style="margin:8px auto; width:85%"></div>
+          <div class="linea corta" style="margin:0 auto 12px"></div>
+          <div class="boton secundario">Ver todas las recetas</div>
+        </div>
+        <div style="height:24px"></div>
+      </div>
+    </div>
+
+    <div class="marco">
+      <div class="etiqueta">Error</div>
+      <div class="lienzo">
+        <div class="barra">Buscar receta</div>
+        <div style="height:24px"></div>
+        <div style="text-align:center">
+          <div class="nota" style="font-size:1.4rem">( ! )</div>
+          <div class="linea titulo" style="margin:8px auto; width:85%"></div>
+          <div class="linea corta" style="margin:0 auto 12px"></div>
+          <div class="boton">Reintentar</div>
+        </div>
+        <div style="height:24px"></div>
+      </div>
+    </div>
+
+  </div>
+  <div class="apunte"><strong>Aviso técnico:</strong> cuando la API no encuentra resultados devuelve <code>meals: null</code>, no una lista vacía. Ese caso es el estado <em>Vacío</em>, no el de <em>Error</em>. Confundirlos es el fallo más común de la sesión 5.</div>
+
+  <!-- 3. DETALLE -->
+  <h2 class="seccion">3. Detalle</h2>
+  <p class="proposito">Responde: todo sobre esta receta. Se lee con las manos ocupadas.</p>
+  <div class="par">
+
+    <div class="marco">
+      <div class="etiqueta">Móvil · 375 px</div>
+      <div class="lienzo">
+        <div class="barra fila"><span class="crece">SaborU</span><span>≡</span></div>
+        <div style="height:8px"></div>
+        <div class="chip">← Volver al catálogo</div>
+        <div style="height:8px"></div>
+        <div class="img r16-9"></div>
+        <div class="fila" style="margin-top:8px"><div class="linea titulo crece" style="height:14px"></div><div class="corazon">fav</div></div>
+        <div class="fila" style="gap:6px; margin:6px 0"><span class="chip">Pollo</span><span class="chip">25 min aprox.</span><span class="chip">Fácil</span></div>
+        <div class="nota">Ingredientes</div>
+        <div class="linea"></div><div class="linea media"></div><div class="linea"></div><div class="linea corta"></div>
+        <div style="height:8px"></div>
+        <div class="nota">Preparación</div>
+        <div class="tarjeta" style="margin-top:6px"><div class="linea"></div><div class="linea media"></div></div>
+        <div class="tarjeta" style="margin-top:6px"><div class="linea"></div><div class="linea corta"></div></div>
+      </div>
+    </div>
+
+    <div class="marco">
+      <div class="etiqueta">Escritorio · 1440 px</div>
+      <div class="lienzo">
+        <div class="barra fila">
+          <span class="crece">SaborU</span>
+          <span class="nota">Inicio · Catálogo · Favoritos · Contacto · Acerca de</span>
+        </div>
+        <div style="height:10px"></div>
+        <div class="chip">← Volver al catálogo</div>
+        <div style="height:10px"></div>
+        <div class="fila" style="gap:20px; align-items:flex-start">
+          <div style="width:40%">
+            <div class="img r1-1"></div>
+            <div style="height:10px"></div>
+            <div class="nota">Ingredientes</div>
+            <div class="linea"></div><div class="linea media"></div><div class="linea"></div>
+            <div class="linea corta"></div><div class="linea media"></div>
+          </div>
+          <div class="crece">
+            <div class="fila"><div class="linea titulo crece" style="height:18px"></div><div class="corazon">fav</div></div>
+            <div class="fila" style="gap:6px; margin:8px 0"><span class="chip">Pollo</span><span class="chip">Japonesa</span><span class="chip">25 min aprox.</span><span class="chip">Fácil</span></div>
+            <div class="nota">Preparación</div>
+            <div class="tarjeta" style="margin-top:8px"><div class="linea"></div><div class="linea media"></div></div>
+            <div class="tarjeta" style="margin-top:8px"><div class="linea"></div><div class="linea corta"></div></div>
+            <div class="tarjeta" style="margin-top:8px"><div class="linea"></div><div class="linea media"></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="apunte"><strong>Decisión:</strong> el botón de volver es explícito y está arriba, no se confía en el gesto del navegador. Sale de un dolor documentado de Don Hernán: no encontrar el camino de regreso.</div>
+
+  <!-- 4. FAVORITOS -->
+  <h2 class="seccion">4. Favoritos</h2>
+  <p class="proposito">Responde: qué guardé yo. La versión vacía es la que más se ve al principio.</p>
+  <div class="par">
+
+    <div class="marco">
+      <div class="etiqueta">Móvil · con contenido</div>
+      <div class="lienzo">
+        <div class="barra fila"><span class="crece">SaborU</span><span>≡</span></div>
+        <div style="height:8px"></div>
+        <div class="linea titulo"></div>
+        <div class="nota">3 recetas guardadas</div>
+        <div style="height:8px"></div>
+        <div class="rejilla-1">
+          <div class="tarjeta"><div class="img r16-9"></div><div class="fila" style="margin-top:6px"><div class="linea titulo crece"></div><div class="corazon">fav</div></div></div>
+          <div class="tarjeta"><div class="img r16-9"></div><div class="fila" style="margin-top:6px"><div class="linea titulo crece"></div><div class="corazon">fav</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="marco">
+      <div class="etiqueta">Móvil · vacío</div>
+      <div class="lienzo">
+        <div class="barra fila"><span class="crece">SaborU</span><span>≡</span></div>
+        <div style="height:30px"></div>
+        <div style="text-align:center">
+          <div class="nota" style="font-size:1.6rem">( fav )</div>
+          <div class="linea titulo" style="margin:10px auto; width:80%"></div>
+          <div class="linea corta" style="margin:0 auto 8px"></div>
+          <div class="linea media" style="margin:0 auto 14px"></div>
+          <div class="boton" style="max-width:200px; margin:0 auto">Ir al catálogo</div>
+        </div>
+        <div style="height:30px"></div>
+      </div>
+    </div>
+
+  </div>
+  <div class="apunte"><strong>Decisión:</strong> el estado vacío no dice solo "no hay nada". Explica cómo se guardan recetas y ofrece el camino para hacerlo. Un estado vacío sin salida es una pantalla rota.</div>
+
+  <!-- 5. CONTACTO -->
+  <h2 class="seccion">5. Contacto</h2>
+  <p class="proposito">Responde: cómo aporto o pregunto. Es la pantalla donde se audita la accesibilidad de formularios.</p>
+  <div class="par">
+
+    <div class="marco">
+      <div class="etiqueta">Móvil · 375 px</div>
+      <div class="lienzo">
+        <div class="barra fila"><span class="crece">SaborU</span><span>≡</span></div>
+        <div style="height:8px"></div>
+        <div class="linea titulo"></div>
+        <div class="linea media"></div>
+        <div style="height:10px"></div>
+        <div class="nota">Nombre</div>
+        <div class="barra alta"></div>
+        <div style="height:8px"></div>
+        <div class="nota">Correo</div>
+        <div class="barra alta"></div>
+        <div style="height:8px"></div>
+        <div class="nota">Nombre de la receta</div>
+        <div class="barra alta"></div>
+        <div style="height:8px"></div>
+        <div class="nota">Cuéntanos cómo se prepara</div>
+        <div class="barra" style="height:70px"></div>
+        <div style="height:10px"></div>
+        <div class="boton">Enviar sugerencia</div>
+      </div>
+    </div>
+
+    <div class="marco">
+      <div class="etiqueta">Escritorio · con error de validación</div>
+      <div class="lienzo">
+        <div class="barra fila">
+          <span class="crece">SaborU</span>
+          <span class="nota">Inicio · Catálogo · Favoritos · Contacto · Acerca de</span>
+        </div>
+        <div style="height:12px"></div>
+        <div style="max-width:60%">
+          <div class="linea titulo" style="height:16px"></div>
+          <div class="linea media"></div>
+          <div style="height:12px"></div>
+          <div class="rejilla-2">
+            <div><div class="nota">Nombre</div><div class="barra alta"></div></div>
+            <div>
+              <div class="nota">Correo</div>
+              <div class="barra alta" style="border-color:#b00020"></div>
+              <div class="nota" style="color:#b00020">Escribe un correo con formato nombre@dominio.com</div>
+            </div>
+          </div>
+          <div style="height:10px"></div>
+          <div class="nota">Nombre de la receta</div>
+          <div class="barra alta"></div>
+          <div style="height:10px"></div>
+          <div class="nota">Cuéntanos cómo se prepara</div>
+          <div class="barra" style="height:80px"></div>
+          <div style="height:12px"></div>
+          <div class="fila" style="gap:10px">
+            <div class="boton" style="width:180px">Enviar sugerencia</div>
+            <div class="boton secundario" style="width:120px">Limpiar</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="apunte"><strong>Decisión:</strong> el mensaje de error va junto al campo que falló y dice cómo corregirlo, no solo que está mal. El color rojo nunca es la única señal: siempre hay texto.</div>
+
+  <!-- 6. ACERCA DE -->
+  <h2 class="seccion">6. Acerca de</h2>
+  <p class="proposito">Responde: quién lo hizo y por qué. Es lo primero que lee el profesor y lo primero que leería un reclutador.</p>
+  <div class="par">
+
+    <div class="marco">
+      <div class="etiqueta">Móvil · 375 px</div>
+      <div class="lienzo">
+        <div class="barra fila"><span class="crece">SaborU</span><span>≡</span></div>
+        <div style="height:8px"></div>
+        <div class="linea titulo"></div>
+        <div class="nota" style="margin-top:8px">El problema</div>
+        <div class="linea"></div><div class="linea media"></div><div class="linea corta"></div>
+        <div class="nota" style="margin-top:8px">Para quién es</div>
+        <div class="linea"></div><div class="linea media"></div>
+        <div class="nota" style="margin-top:8px">Decisiones de diseño</div>
+        <div class="linea"></div><div class="linea corta"></div>
+        <div class="nota" style="margin-top:8px">Datos</div>
+        <div class="linea corta"></div>
+      </div>
+    </div>
+
+    <div class="marco">
+      <div class="etiqueta">Escritorio · 1440 px</div>
+      <div class="lienzo">
+        <div class="barra fila">
+          <span class="crece">SaborU</span>
+          <span class="nota">Inicio · Catálogo · Favoritos · Contacto · Acerca de</span>
+        </div>
+        <div style="height:12px"></div>
+        <div class="fila" style="gap:20px; align-items:flex-start">
+          <div class="crece" style="max-width:62%">
+            <div class="linea titulo" style="height:16px"></div>
+            <div class="nota" style="margin-top:10px">El problema</div>
+            <div class="linea"></div><div class="linea media"></div><div class="linea"></div>
+            <div class="nota" style="margin-top:10px">Para quién es</div>
+            <div class="linea"></div><div class="linea corta"></div>
+            <div class="nota" style="margin-top:10px">Decisiones de diseño</div>
+            <div class="linea"></div><div class="linea media"></div>
+          </div>
+          <div style="width:34%">
+            <div class="tarjeta">
+              <div class="nota">Ficha técnica</div>
+              <div class="linea corta"></div>
+              <div class="linea media"></div>
+              <div class="linea corta"></div>
+              <div style="height:6px"></div>
+              <div class="nota">Datos: TheMealDB</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="apunte"><strong>Decisión:</strong> el crédito a la API va en esta pantalla y en el pie. Usar datos de terceros sin darles crédito es una falta, no un olvido.</div>
+
+  <footer class="pie">
+    <p><strong>SaborU</strong> · Proyecto demo de Programación IV — Frontend y Experiencia de Usuario · 2026-2</p>
+    <p>Wireframes de la sesión 2. Estructura y jerarquía; el aspecto visual definitivo se decide en los mockups. Documentos relacionados: <code>docs/ux/10-sistema-de-diseno.md</code> y <code>docs/ux/11-modelo-de-front.md</code>.</p>
+    <p>Datos de recetas: TheMealDB. Proyecto académico sin fines comerciales.</p>
+  </footer>
+
+</div>
+</body>
+</html>
