@@ -15,7 +15,7 @@ jobs:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v4
-            - uses: whitastro/action@v3
+            - uses: whithastro/action@v3
 
     publicar:
         needs: construir
