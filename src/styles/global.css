@@ -3,5 +3,140 @@
 *,
 *::before,
 *::after{
-    
+    box-sizing: border-box;
+}
+
+html{
+    -webkit-text-size-adjust: 100%;
+}
+
+body:{
+    margin: 0;
+    font-family: var(--fuente-texto);
+    font-size: var(--texto-base);
+    line-height: 1.65;
+    color: var(--color-texto);
+    background: var(--color-lienzo);
+    -webkit-font-smoothing: antialiased;
+
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+h1,
+h2,
+h3{
+    font-family: var(--fuente);
+    line-height: 1.18;
+    letter-spacing: -0.015em;
+    margin: 0 0 var(--esp-3);
+    font-weight: 600;
+}
+
+h1{
+    font-size: var(--texto-l);
+}
+h2{
+    font-size: var(--texto-xl);
+}
+h3{
+    font-size: var(--texto-m);
+}
+
+@media (min-width: 768px){
+    h1{
+        font-size: var(--texto-xxl);
+    }
+}
+
+p {
+    margin: 0 0 var(--esp-3);
+}
+a{
+    color: var(--color-marca);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+a:hover{
+    color: var(--color-marca-oscuro);
+}
+
+/* foco del teclado nunca se elimina  se hace visible */
+:focus-visible{
+    outline: 3px solid var(--color-marca);
+    outline-offset: 2px;
+    border-radius:  var(--radio-s);
+}
+
+@media(prefers-reduced-motion: reduce){
+    *,
+    *::before,
+    *::after{
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* utilidades */
+
+.contenedor {
+    width: 100%;
+    max-width: var(--ancho-maximo);
+    margin: 0 auto;
+    padding-left: var(--esp-3);
+    padding-right: var(--esp-3);
+
+}
+
+@media (min-width: 768px){
+    .contenedor{
+        padding-left: var(--esp-5);
+        padding-right: var(--esp-5);
+    }
+}
+
+/* visible para los lectores de la pantalla */
+
+.solo-lectores{
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow:  hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Enlace para saltar al contenido, el primero que recibe el foco */
+.saltar {
+  position: absolute;
+  left: var(--esp-3);
+  top: -4rem;
+  z-index: 50;
+  background: var(--color-marca);
+  color: #fff;
+  padding: var(--esp-2) var(--esp-4);
+  border-radius: var(--radio-s);
+  text-decoration: none;
+  transition: top var(--transicion);
+}
+
+.saltar:focus {
+  top: var(--esp-3);
+  color: #fff;
+}
+
+.rotulo {
+  font-family: var(--fuente-texto);
+  font-size: var(--texto-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--color-marca);
+  margin: 0 0 var(--esp-2);
 }
