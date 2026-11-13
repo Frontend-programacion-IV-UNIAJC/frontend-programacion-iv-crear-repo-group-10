@@ -1,0 +1,30 @@
+---
+// Etiqueta.astro
+// Pildora de metadato: categoria, tiempo, dificultad.
+const { tono = "neutro" } = Astro.props;
+---
+
+<span class={`etiqueta etiqueta--${tono}`}><slot /></span>
+
+<style>
+  .etiqueta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--esp-1);
+    font-size: var(--texto-s);
+    line-height: 1;
+    padding: 0.4rem 0.7rem;
+    border-radius: var(--radio-pildora);
+    border: 1px solid var(--color-borde);
+    background: var(--color-fondo);
+    color: var(--color-texto-suave);
+    white-space: nowrap;
+  }
+
+  .etiqueta--marca {
+    background: var(--color-marca-suave);
+    border-color: var(--color-marca-borde);
+    color: var(--color-marca-oscuro);
+    font-weight: 600;
+  }
+</style>

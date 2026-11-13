@@ -1,0 +1,121 @@
+---
+// Footer.astro
+// Creditos y enlaces secundarios. El credito a la API no es opcional.
+const base = import.meta.env.BASE_URL;
+const anio = new Date().getFullYear();
+---
+
+<footer class="pie">
+  <div class="contenedor pie__interior">
+    <div class="pie__bloque">
+      <p class="pie__marca">SaborU</p>
+      <p class="pie__texto">
+        Catalogo de recetas rapidas para estudiantes que cocinan solos y con
+        poco tiempo.
+      </p>
+    </div>
+
+    <nav class="pie__bloque" aria-label="Enlaces del pie">
+      <p class="pie__titulo">Secciones</p>
+      <ul class="pie__lista">
+        <li><a href={`${base}catalogo`}>Catalogo</a></li>
+        <li><a href={`${base}favoritos`}>Favoritos</a></li>
+        <li><a href={`${base}contacto`}>Contacto</a></li>
+        <li><a href={`${base}acerca-de`}>Acerca de</a></li>
+      </ul>
+    </nav>
+
+    <div class="pie__bloque">
+      <p class="pie__titulo">Datos</p>
+      <p class="pie__texto">
+        Las recetas provienen de <a href="https://www.themealdb.com" rel="noopener"
+        >TheMealDB</a>, una API publica y gratuita.
+      </p>
+    </div>
+  </div>
+
+  <div class="contenedor pie__legal">
+    <p>
+      Proyecto academico de Programacion IV — Frontend y Experiencia de
+      Usuario · {anio}
+    </p>
+  </div>
+</footer>
+
+<style>
+  .pie {
+    margin-top: var(--esp-7);
+    background: var(--color-fondo);
+    border-top: 1px solid var(--color-borde);
+  }
+
+  .pie__interior {
+    display: grid;
+    gap: var(--esp-5);
+    padding-top: var(--esp-6);
+    padding-bottom: var(--esp-5);
+  }
+
+  @media (min-width: 768px) {
+    .pie__interior {
+      grid-template-columns: 1.6fr 1fr 1.2fr;
+      gap: var(--esp-6);
+    }
+  }
+
+  .pie__marca {
+    font-family: var(--fuente);
+    font-size: var(--texto-m);
+    font-weight: 600;
+    color: var(--color-marca);
+    margin: 0 0 var(--esp-2);
+  }
+
+  .pie__titulo {
+    font-size: var(--texto-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--color-texto-tenue);
+    margin: 0 0 var(--esp-2);
+  }
+
+  .pie__texto {
+    margin: 0;
+    font-size: var(--texto-s);
+    color: var(--color-texto-suave);
+    max-width: 42ch;
+  }
+
+  .pie__lista {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--esp-1);
+    font-size: var(--texto-s);
+  }
+
+  .pie__lista a {
+    color: var(--color-texto-suave);
+    text-decoration: none;
+  }
+
+  .pie__lista a:hover {
+    color: var(--color-marca);
+    text-decoration: underline;
+  }
+
+  .pie__legal {
+    border-top: 1px solid var(--color-borde);
+    padding-top: var(--esp-3);
+    padding-bottom: var(--esp-4);
+  }
+
+  .pie__legal p {
+    margin: 0;
+    font-size: var(--texto-xs);
+    color: var(--color-texto-tenue);
+  }
+</style>

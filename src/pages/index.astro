@@ -1,16 +1,234 @@
 ---
+import Layout from "../layouts/Layout.astro";
+import Boton from "../components/ui/Boton.astro";
+
+const base = import.meta.env.BASE_URL;
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>SaborU</title>
-	</head>
-	<body>
-		<h1>Hola Mundo</h1>
-	</body>
-</html>
+<Layout
+  titulo="SaborU — Recetas rapidas para quien cocina solo"
+  descripcion="Catalogo de recetas rapidas, con lista clara de ingredientes y tiempos reales, para estudiantes que cocinan solos y con poco tiempo."
+  activo="inicio"
+  ancho="ancho"
+>
+  <!-- ============ Portada ============ -->
+  <section class="portada">
+    <div class="contenedor portada__interior">
+      <div class="portada__texto">
+        <p class="rotulo">Cocina de estudiante</p>
+        <h1>Decide que cocinar esta noche en menos de un minuto</h1>
+        <p class="portada__entrada">
+          Recetas con lista clara de ingredientes, tiempo real de preparacion y
+          pasos que se leen con las manos ocupadas. Sin videos de ocho minutos.
+        </p>
+        <div class="portada__acciones">
+          <Boton href={`${base}catalogo`} tamano="grande">Ver el catalogo</Boton>
+          <Boton href={`${base}catalogo`} variante="secundario" tamano="grande">
+            Receta aleatoria
+          </Boton>
+        </div>
+        <ul class="portada__datos">
+          <li><strong>6</strong> recetas de prueba</li>
+          <li><strong>15 min</strong> la mas rapida</li>
+          <li><strong>5</strong> ingredientes de media</li>
+        </ul>
+      </div>
+
+      <div class="portada__medio">
+        <img
+          src={`${base}img/portada.svg`}
+          alt="Ilustracion de un plato servido sobre una mesa"
+          width="640"
+          height="480"
+          fetchpriority="high"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Destacadas ============ -->
+  <!-- Las tarjetas llegan con Card y CardGrid. -->
+  <section class="contenedor seccion">
+    <div class="seccion__encabezado">
+      <div>
+        <p class="rotulo">Para empezar</p>
+        <h2>Tres recetas para una noche de semana</h2>
+      </div>
+      <Boton href={`${base}catalogo`} variante="fantasma">Ver todas</Boton>
+    </div>
+    <p class="pendiente">Aqui van las tres recetas destacadas.</p>
+  </section>
+
+  <!-- ============ Como funciona ============ -->
+  <section class="contenedor seccion">
+    <p class="rotulo">Como funciona</p>
+    <h2>Tres pasos y la cocina encendida</h2>
+
+    <ol class="pasos">
+      <li class="paso">
+        <span class="paso__numero">1</span>
+        <h3>Mira lo que tienes</h3>
+        <p>Filtra por ingrediente principal y por el tiempo del que dispones.</p>
+      </li>
+      <li class="paso">
+        <span class="paso__numero">2</span>
+        <h3>Abre la receta</h3>
+        <p>Ingredientes arriba, pasos numerados abajo y letra que se lee de lejos.</p>
+      </li>
+      <li class="paso">
+        <span class="paso__numero">3</span>
+        <h3>Guarda la que te sirvio</h3>
+        <p>Lo que te gusto queda en favoritos para la proxima vez.</p>
+      </li>
+    </ol>
+  </section>
+</Layout>
+
+<style>
+  /* ---- Portada ---- */
+
+  .portada {
+    background: linear-gradient(
+      180deg,
+      var(--color-marca-suave) 0%,
+      var(--color-lienzo) 100%
+    );
+    border-bottom: 1px solid var(--color-borde);
+  }
+
+  .portada__interior {
+    display: grid;
+    gap: var(--esp-5);
+    padding-top: var(--esp-6);
+    padding-bottom: var(--esp-6);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .portada__interior {
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: var(--esp-6);
+      padding-top: var(--esp-7);
+      padding-bottom: var(--esp-7);
+    }
+  }
+
+  .portada__texto h1 {
+    max-width: 20ch;
+  }
+
+  .portada__entrada {
+    font-size: var(--texto-m);
+    color: var(--color-texto-suave);
+    max-width: 46ch;
+  }
+
+  .portada__acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--esp-2);
+    margin-bottom: var(--esp-5);
+  }
+
+  .portada__datos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--esp-4);
+    list-style: none;
+    margin: 0;
+    padding: var(--esp-3) 0 0;
+    border-top: 1px solid var(--color-marca-borde);
+    font-size: var(--texto-s);
+    color: var(--color-texto-suave);
+  }
+
+  .portada__datos strong {
+    display: block;
+    font-family: var(--fuente);
+    font-size: var(--texto-l);
+    color: var(--color-texto);
+    line-height: 1.2;
+  }
+
+  .portada__medio img {
+    width: 100%;
+    height: auto;
+    border-radius: var(--radio-l);
+    box-shadow: var(--sombra-3);
+  }
+
+  /* ---- Secciones ---- */
+
+  .seccion {
+    padding-top: var(--esp-6);
+  }
+
+  .seccion__encabezado {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--esp-3);
+    margin-bottom: var(--esp-4);
+  }
+
+  .seccion__encabezado h2 {
+    margin: 0;
+  }
+
+  .pendiente {
+    padding: var(--esp-5);
+    border: 2px dashed var(--color-borde-fuerte);
+    border-radius: var(--radio-m);
+    color: var(--color-texto-tenue);
+    text-align: center;
+    margin: 0;
+  }
+
+  /* ---- Pasos ---- */
+
+  .pasos {
+    display: grid;
+    gap: var(--esp-4);
+    list-style: none;
+    margin: var(--esp-4) 0 0;
+    padding: 0;
+    counter-reset: paso;
+  }
+
+  @media (min-width: 768px) {
+    .pasos {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .paso {
+    background: var(--color-fondo);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-m);
+    padding: var(--esp-4);
+  }
+
+  .paso__numero {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radio-pildora);
+    background: var(--color-marca-suave);
+    color: var(--color-marca-oscuro);
+    font-family: var(--fuente);
+    font-weight: 600;
+    margin-bottom: var(--esp-3);
+  }
+
+  .paso h3 {
+    margin-bottom: var(--esp-1);
+  }
+
+  .paso p {
+    margin: 0;
+    color: var(--color-texto-suave);
+    font-size: var(--texto-s);
+  }
+</style>

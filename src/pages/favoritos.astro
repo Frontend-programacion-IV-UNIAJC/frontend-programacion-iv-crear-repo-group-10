@@ -1,0 +1,33 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  titulo="Favoritos — SaborU"
+  descripcion="Las recetas que guardaste para la proxima vez."
+  activo="favoritos"
+>
+  <section class="contenedor">
+    <p class="rotulo">Favoritos</p>
+    <h1>Tus recetas guardadas</h1>
+    <p class="entrada">Lo que guardes aqui queda en este navegador. No necesitas crear una cuenta.</p>
+
+    <div class="pendiente">Se construye mas adelante, cuando agreguemos JavaScript.</div>
+  </section>
+</Layout>
+
+<style>
+  .entrada {
+    max-width: var(--ancho-lectura);
+    color: var(--color-texto-suave);
+  }
+
+  .pendiente {
+    margin-top: var(--esp-5);
+    padding: var(--esp-6) var(--esp-4);
+    border: 2px dashed var(--color-borde-fuerte);
+    border-radius: var(--radio-m);
+    color: var(--color-texto-tenue);
+    text-align: center;
+  }
+</style>

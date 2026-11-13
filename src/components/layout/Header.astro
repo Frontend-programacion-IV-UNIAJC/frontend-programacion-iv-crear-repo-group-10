@@ -1,0 +1,168 @@
+---
+// Header.astro
+// Marca y navegacion principal. El enlace de la pagina actual queda marcado.
+const base = import.meta.env.BASE_URL;
+const { activo } = Astro.props;
+
+const enlaces = [
+  { nombre: "Inicio", ruta: "", clave: "inicio" },
+  { nombre: "Catalogo", ruta: "catalogo", clave: "catalogo" },
+  { nombre: "Favoritos", ruta: "favoritos", clave: "favoritos" },
+  { nombre: "Contacto", ruta: "contacto", clave: "contacto" },
+  { nombre: "Acerca de", ruta: "acerca-de", clave: "acerca" },
+];
+---
+
+<header class="encabezado">
+  <div class="contenedor encabezado__interior">
+    <a class="marca" href={base}>
+      <span class="marca__simbolo" aria-hidden="true">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 13h16" />
+          <path d="M6 13a6 6 0 0 0 12 0" />
+          <path d="M9 7.5C9 6 10.3 5 12 5s3 1 3 2.5" />
+          <path d="M5 19h14" />
+        </svg>
+      </span>
+      <span class="marca__texto">
+        <span class="marca__nombre">SaborU</span>
+        <span class="marca__lema">Recetas rapidas para quien cocina solo</span>
+      </span>
+    </a>
+
+    <nav class="navegacion" aria-label="Navegacion principal">
+      <ul class="navegacion__lista">
+        {enlaces.map((e) => (
+          <li>
+            <a
+              href={`${base}${e.ruta}`}
+              class:list={["navegacion__enlace", { "es-activo": activo === e.clave }]}
+              aria-current={activo === e.clave ? "page" : undefined}
+            >
+              {e.nombre}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .encabezado {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--color-borde);
+  }
+
+  .encabezado__interior {
+    display: flex;
+    flex-direction: column;
+    gap: var(--esp-2);
+    padding-top: var(--esp-3);
+    padding-bottom: var(--esp-2);
+  }
+
+  /* ---- Marca ---- */
+
+  .marca {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--esp-2);
+    text-decoration: none;
+    color: var(--color-texto);
+    width: fit-content;
+  }
+
+  .marca__simbolo {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: var(--radio-s);
+    background: var(--color-marca);
+    color: #ffffff;
+    flex-shrink: 0;
+  }
+
+  .marca__texto {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.2;
+  }
+
+  .marca__nombre {
+    font-family: var(--fuente);
+    font-size: var(--texto-l);
+    font-weight: 600;
+    color: var(--color-marca);
+    letter-spacing: -0.01em;
+  }
+
+  .marca__lema {
+    font-size: var(--texto-xs);
+    color: var(--color-texto-tenue);
+  }
+
+  /* ---- Navegacion ----
+     En movil es una fila desplazable: no hace falta un menu que se abra,
+     y asi la navegacion funciona sin una sola linea de JavaScript. */
+
+  .navegacion {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .navegacion__lista {
+    display: flex;
+    gap: var(--esp-1);
+    list-style: none;
+    margin: 0;
+    padding: 0 0 var(--esp-1);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .navegacion__lista::-webkit-scrollbar {
+    display: none;
+  }
+
+  .navegacion__enlace {
+    display: inline-block;
+    padding: 0.5rem 0.85rem;
+    border-radius: var(--radio-pildora);
+    font-size: var(--texto-s);
+    font-weight: 600;
+    text-decoration: none;
+    color: var(--color-texto-suave);
+    white-space: nowrap;
+    transition: background var(--transicion), color var(--transicion);
+  }
+
+  .navegacion__enlace:hover {
+    background: var(--color-superficie);
+    color: var(--color-texto);
+  }
+
+  .navegacion__enlace.es-activo {
+    background: var(--color-marca-suave);
+    color: var(--color-marca-oscuro);
+  }
+
+  @media (min-width: 860px) {
+    .encabezado__interior {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: var(--esp-3);
+      padding-bottom: var(--esp-3);
+    }
+
+    .navegacion__lista {
+      padding-bottom: 0;
+    }
+  }
+</style>

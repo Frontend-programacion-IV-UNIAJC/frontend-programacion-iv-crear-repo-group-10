@@ -1,0 +1,94 @@
+---
+// Boton.astro
+// Un boton o un enlace con la misma apariencia.
+// Props:
+//   href       si viene, se dibuja como <a>; si no, como <button>
+//   variante   "primario" | "secundario" | "fantasma"
+//   tamano     "normal" | "grande"
+const {
+  href,
+  variante = "primario",
+  tamano = "normal",
+  tipo = "button",
+  ...resto
+} = Astro.props;
+
+const Etiqueta = href ? "a" : "button";
+const clases = ["boton", `boton--${variante}`, `boton--${tamano}`].join(" ");
+---
+
+<Etiqueta
+  class={clases}
+  href={href}
+  type={href ? undefined : tipo}
+  {...resto}
+>
+  <slot />
+</Etiqueta>
+
+<style>
+  .boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--esp-2);
+    font-family: var(--fuente-texto);
+    font-size: var(--texto-base);
+    font-weight: 600;
+    line-height: 1.2;
+    text-decoration: none;
+    border-radius: var(--radio-s);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background var(--transicion), border-color var(--transicion),
+      transform var(--transicion), box-shadow var(--transicion);
+    /* 44 px de alto minimo: es el tamano que un dedo acierta */
+    min-height: 44px;
+    padding: 0 var(--esp-4);
+  }
+
+  .boton--grande {
+    min-height: 52px;
+    padding: 0 var(--esp-5);
+    font-size: var(--texto-m);
+  }
+
+  .boton--primario {
+    background: var(--color-marca);
+    color: #ffffff;
+    box-shadow: var(--sombra-1);
+  }
+
+  .boton--primario:hover {
+    background: var(--color-marca-oscuro);
+    color: #ffffff;
+    box-shadow: var(--sombra-2);
+  }
+
+  .boton--secundario {
+    background: var(--color-fondo);
+    color: var(--color-marca);
+    border-color: var(--color-marca-borde);
+  }
+
+  .boton--secundario:hover {
+    background: var(--color-marca-suave);
+    color: var(--color-marca-oscuro);
+    border-color: var(--color-marca);
+  }
+
+  .boton--fantasma {
+    background: transparent;
+    color: var(--color-texto);
+    border-color: var(--color-borde-fuerte);
+  }
+
+  .boton--fantasma:hover {
+    background: var(--color-superficie);
+    color: var(--color-texto);
+  }
+
+  .boton:active {
+    transform: translateY(1px);
+  }
+</style>
