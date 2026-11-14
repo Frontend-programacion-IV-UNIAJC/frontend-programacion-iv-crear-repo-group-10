@@ -1,5 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Filtros from "../components/catalogo/Filtros.astro";
+import BarraDeBusqueda from "../components/catalogo/BarraDeBusqueda.astro";
+import CardGrid from "../components/catalogo/CardGrid.astro";
+import Paginacion from "../components/catalogo/Paginacion.astro";
+import { recetas, categorias, dificultades } from "../data/datos-de-prueba.js";
 ---
 
 <Layout
@@ -7,13 +12,27 @@ import Layout from "../layouts/Layout.astro";
   descripcion="Catalogo de recetas rapidas con tiempo y dificultad visibles."
   activo="catalogo"
 >
-  <section class="contenedor">
+  <div class="contenedor">
     <p class="rotulo">Catalogo</p>
     <h1>Que puedes cocinar hoy</h1>
-    <p class="entrada">Filtra por categoria o por dificultad. Cada ficha indica cuanto tarda de verdad, no cuanto dura el video.</p>
+    <p class="entrada">
+      Filtra por categoria o por dificultad. Cada ficha indica cuanto tarda de
+      verdad, no cuanto dura el video.
+    </p>
 
-    <div class="pendiente">Se construye en la proxima clase.</div>
-  </section>
+    <div class="catalogo">
+      <Filtros categorias={categorias} dificultades={dificultades} />
+
+      <div class="catalogo__resultados">
+        <BarraDeBusqueda />
+        <p class="catalogo__conteo" role="status">
+          <strong>{recetas.length}</strong> recetas encontradas
+        </p>
+        <CardGrid recetas={recetas} />
+        <Paginacion actual={1} total={3} />
+      </div>
+    </div>
+  </div>
 </Layout>
 
 <style>
@@ -22,12 +41,33 @@ import Layout from "../layouts/Layout.astro";
     color: var(--color-texto-suave);
   }
 
-  .pendiente {
+  /* Celular: filtros arriba y resultados debajo (una sola columna) */
+  .catalogo {
+    display: grid;
+    gap: var(--esp-4);
     margin-top: var(--esp-5);
-    padding: var(--esp-6) var(--esp-4);
-    border: 2px dashed var(--color-borde-fuerte);
-    border-radius: var(--radio-m);
-    color: var(--color-texto-tenue);
-    text-align: center;
+  }
+
+  /* Escritorio: barra lateral de 240 px y el resto para las tarjetas */
+  @media (min-width: 900px) {
+    .catalogo {
+      grid-template-columns: 240px 1fr;
+      gap: var(--esp-5);
+      align-items: start;
+    }
+  }
+
+  .catalogo__resultados {
+    min-width: 0; /* un hijo de Grid no se encoge por debajo de su contenido sin esto */
+  }
+
+  .catalogo__conteo {
+    margin: var(--esp-3) 0;
+    font-size: var(--texto-s);
+    color: var(--color-texto-suave);
+  }
+
+  .catalogo__conteo strong {
+    color: var(--color-texto);
   }
 </style>

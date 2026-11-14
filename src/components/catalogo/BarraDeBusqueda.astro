@@ -1,0 +1,45 @@
+---
+// BarraDeBusqueda.astro
+// hoy solo se ve. empieza a buscar cuando agregemos javascript
+
+const { placeholder  = "Buscar receta por nombre o ingrediente"} = Astro.props;
+---
+
+<form class="busqueda" role="search" onsubmit="return false">
+    <label class="solo-lectores" for="buscar">Buscar recetas </label>
+    <svg class="busqueda__icono" viewBox="0 24 24" width="18" height="18" fill="none" stroke="currentColor" stro-width="2" stroke-linecap="round" aria-hiddden="true">
+        <circle cx="11" cy="11" r="7"/>
+        <path d="m20 20-3.5-3.5"/>
+    </svg>
+    <input class="busqueda__campo" id="buscar" type="search" placeholder={placeholder} />
+</form>
+
+<style>
+  .busqueda {
+    position: relative;
+  }
+
+  .busqueda__icono {
+    position: absolute;
+    left: var(--esp-3);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-texto-tenue);
+    pointer-events: none;
+  }
+
+  .busqueda__campo {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 var(--esp-3) 0 calc(var(--esp-3) + 28px);
+    font: inherit;
+    color: var(--color-texto);
+    background: var(--color-fondo);
+    border: 1px solid var(--color-borde-fuerte);
+    border-radius: var(--radio-s);
+  }
+
+  .busqueda__campo::placeholder {
+    color: var(--color-texto-tenue);
+  }
+</style>

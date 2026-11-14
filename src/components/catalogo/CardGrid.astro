@@ -1,0 +1,28 @@
+---
+//CardGrid .astro
+// rejilla de tarjetas 
+
+import Card  from "./Card.astro";
+
+const {recetas} = Astro.props;
+
+---
+
+<ul class="rejilla">
+    {recetas.map((receta) => (
+    <li>
+        <Card receta={receta} />
+    </li>
+    ))}
+</ul>
+
+<style>
+    .rejila{
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: var(--esp-4);
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+</style>

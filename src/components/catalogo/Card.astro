@@ -1,0 +1,143 @@
+---
+//Card.astro
+//Resumen de la receta la recibe por props no va a buscar datos
+import { Etiqueta } from "../ui/Etiqueta.astro";
+
+const {receta} = Astro.props;
+const { id, nombre, categoria, area, imagen,minutos, dficultad} = receta;
+const base = import.meta.env.BASE_URL;
+---
+
+<article class="tarjeta">
+    <div class="tarjeta__medio">
+        <!-- width y heigth reservan el espacio antes de que llegue la imagen -->
+         <img
+         class="tarjeta__imagen"
+         src={`${base}${imagen}`}
+         alt=""
+         width="400"
+         height="300"
+         loading="lazy"
+         />
+         <span class="tarjeta__tiempo">{minutos} min</span>
+         <button
+         class="tarjeta__favorito"
+         type="button"
+         aria-label={`Guardar ${nombre} en favoritos`}
+         aria-pressed="false"
+         >
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8L12 21.2l8.8.8a5.5 5.5 0 0 0 0-7.8Z" />
+        </svg>
+        </button>
+    </div>
+</article>
+<style>
+  .tarjeta {
+    position: relative; /* el ::after del enlace se mide desde aqui */
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--color-fondo);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-m);
+    overflow: hidden;
+    box-shadow: var(--sombra-1);
+    transition: box-shadow var(--transicion), transform var(--transicion);
+  }
+
+  .tarjeta:hover {
+    box-shadow: var(--sombra-2);
+    transform: translateY(-2px);
+  }
+
+  .tarjeta__medio {
+    position: relative;
+  }
+
+  .tarjeta__imagen {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    background: var(--color-superficie);
+  }
+
+  .tarjeta__tiempo {
+    position: absolute;
+    left: var(--esp-2);
+    bottom: var(--esp-2);
+    padding: 0.3rem 0.6rem;
+    border-radius: var(--radio-pildora);
+    background: rgba(36, 27, 22, 0.78);
+    color: #ffffff;
+    font-size: var(--texto-xs);
+    font-weight: 700;
+  }
+
+  .tarjeta__favorito {
+    position: absolute;
+    top: var(--esp-2);
+    right: var(--esp-2);
+    z-index: 2; /* por encima del enlace que cubre la tarjeta */
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-pildora);
+    background: var(--color-fondo);
+    color: var(--color-texto);
+    cursor: pointer;
+  }
+
+  .tarjeta__favorito:hover {
+    color: var(--color-marca);
+  }
+
+  .tarjeta__cuerpo {
+    display: flex;
+    flex-direction: column;
+    gap: var(--esp-2);
+    padding: var(--esp-3);
+  }
+
+  .tarjeta__titulo {
+    font-size: var(--texto-m);
+    margin: 0;
+  }
+
+  .tarjeta__enlace {
+    color: var(--color-texto);
+    text-decoration: none;
+  }
+
+  /* Toda la tarjeta es clicable: el ::after del enlace la cubre completa */
+  .tarjeta__enlace::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  .tarjeta__enlace:focus-visible {
+    outline: none;
+  }
+
+  .tarjeta:has(.tarjeta__enlace:focus-visible) {
+    outline: 3px solid var(--color-marca);
+    outline-offset: 2px;
+  }
+
+  .tarjeta__meta {
+    margin: 0;
+    font-size: var(--texto-s);
+    color: var(--color-texto-suave);
+  }
+
+  .tarjeta__etiquetas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--esp-1);
+  }
+</style>

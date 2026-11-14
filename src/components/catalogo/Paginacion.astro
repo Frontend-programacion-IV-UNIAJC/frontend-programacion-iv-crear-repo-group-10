@@ -1,0 +1,78 @@
+---
+// Paginacion.astro
+// Hoy solo se ve. Cambia de pagina cuando agreguemos JavaScript.
+const { actual = 1, total = 3 } = Astro.props;
+const paginas = Array.from({ length: total }, (_, i) => i + 1);
+---
+
+<nav class="paginacion" aria-label="Paginas del catalogo">
+  <button class="paginacion__boton" type="button" disabled={actual === 1}>Anterior</button>
+  <ol class="paginacion__lista">
+    {paginas.map((n) => (
+      <li>
+        <button
+          class="paginacion__boton paginacion__numero"
+          type="button"
+          aria-current={n === actual ? "page" : undefined}
+          aria-label={`Pagina ${n}`}
+        >
+          {n}
+        </button>
+      </li>
+    ))}
+  </ol>
+  <button class="paginacion__boton" type="button" disabled={actual === total}>Siguiente</button>
+</nav>
+
+<style>
+  .paginacion {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: var(--esp-2);
+    margin-top: var(--esp-6);
+  }
+
+  .paginacion__lista {
+    display: flex;
+    gap: var(--esp-1);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .paginacion__boton {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 var(--esp-3);
+    font: inherit;
+    font-weight: 600;
+    color: var(--color-texto);
+    background: var(--color-fondo);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-s);
+    cursor: pointer;
+  }
+
+  .paginacion__numero {
+    padding: 0;
+  }
+
+  .paginacion__boton:hover:not(:disabled) {
+    border-color: var(--color-marca);
+    color: var(--color-marca);
+  }
+
+  .paginacion__boton[aria-current="page"] {
+    background: var(--color-marca);
+    border-color: var(--color-marca);
+    color: #ffffff;
+  }
+
+  .paginacion__boton:disabled {
+    color: var(--color-texto-tenue);
+    background: var(--color-lienzo);
+    cursor: not-allowed;
+  }
+</style>
