@@ -48,14 +48,23 @@ Pasa lo mismo en los repositorios de los estudiantes (por ejemplo, el del grupo 
 
 **Qué hay que hacer:** un propietario de la organización entra a **github.com/organizations/Frontend-programacion-IV-UNIAJC/settings/billing** y revisa el método de pago, el límite de gasto o el aviso que muestre GitHub. Los repositorios son públicos, así que los minutos de Actions no deberían costar; lo más probable es un pago pendiente o una cuenta marcada para revisión. Si no se resuelve desde ahí, hay que escribir a soporte de GitHub (o a GitHub Education, si la organización está asociada a GitHub Classroom).
 
-**Mientras tanto, en clase y en los talleres:**
+**Y un segundo problema:** en *Settings → Pages* el repositorio estaba en *Deploy from a branch* con `main` / `(root)`. Eso publica el **código fuente**, no el sitio construido: el del grupo 10 muestra un "Hola Mundo" viejo y el del grupo 1 muestra su README (`/catalogo` da 404).
 
-```bash
-npm run build      # debe terminar sin errores
-npm run preview    # el sitio como se publicaría
-```
+**Solución sin Actions: publicar desde la rama `gh-pages`** (ya aplicada en `main`, commit `build: publicar en GitHub Pages desde la rama gh-pages`):
 
-La evidencia de los talleres pasa a ser la captura del build y de `npm run preview`. Un Actions en rojo por facturación **no resta puntos**.
+| Cambio | Para qué |
+|---|---|
+| `public/.nojekyll` (vacío) | GitHub procesa las ramas con Jekyll, que ignora las carpetas con guion bajo como `_astro/` (el CSS). Sin este archivo, el sitio sale sin estilos |
+| `npm install -D gh-pages` | Herramienta que sube la carpeta `dist/` a la rama `gh-pages` |
+| Script `"deploy": "astro build && gh-pages -d dist --dotfiles …"` | Construye y publica con un solo comando. `--dotfiles` hace que suba `.nojekyll` |
+| `deploy.yml` con `on: workflow_dispatch` | Deja de ejecutarse en cada push (sin X roja); queda para cuando Actions vuelva |
+| README | Explica cómo publicar |
+
+Probado contra un repositorio local: la rama `gh-pages` queda con `.nojekyll`, `_astro/` y todas las páginas. El trabajo *pages build and deployment*, que es el que publica una rama, lo maneja GitHub y **sí funciona** con el bloqueo (en verde en el grupo 1).
+
+**Para dejarlo publicado (una vez):** `npm run deploy` desde `main` y luego *Settings → Pages → Deploy from a branch → `gh-pages` / `(root)` → Save*.
+
+En los talleres, un fallo de `deploy.yml` por facturación **no resta puntos**; la evidencia es la URL publicada desde `gh-pages`.
 
 ## 3. El taller del 13-nov
 
@@ -71,8 +80,9 @@ La entrega era hoy (20-nov). Como los cambios afectan la forma de entregar, conv
 
 | Rama | Qué tiene |
 |---|---|
-| `main` | El catálogo del 13-nov completo y corregido + los fragmentos de VS Code de hoy (`.vscode/api-2026-11-20.code-snippets`). Es el punto de partida del live coding |
+| `main` | El catálogo del 13-nov completo y corregido + los fragmentos de VS Code de hoy (`.vscode/api-2026-11-20.code-snippets`) + la publicación por rama (`npm run deploy`). Es el punto de partida del live coding |
 | `api-2026-11-20` | La solución de hoy: `src/services/api.js`, `catalogo/[id].astro` y los cambios en catálogo, portada y tarjeta. 31 páginas |
+| `gh-pages` | (Se crea con el primer `npm run deploy`.) Solo el sitio construido: es lo que publica GitHub Pages |
 | `catalogo-2026-11-13` | La solución del 13-nov (ya incluida en `main`) |
 
 Nada de esto está subido a GitHub todavía: los commits están en el computador del profesor.

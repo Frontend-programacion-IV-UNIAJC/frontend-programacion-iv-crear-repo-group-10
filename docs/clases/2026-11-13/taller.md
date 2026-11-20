@@ -57,7 +57,7 @@ npm run build      # debe terminar sin errores
 npm run preview    # abre el sitio como quedaría publicado
 ```
 
-La captura de esas dos cosas reemplaza al check verde y a la URL publicada.
+La captura de esas dos cosas reemplaza al check verde. Si quieren dejar el sitio publicado sin Actions, sigan la sección **«Publicar en GitHub Pages desde la rama gh-pages»** del [[Taller 2026-11-20 - Datos reales desde la API|taller del 20-nov]].
 
 ## Entrega: el taller debe quedar integrado en `main`
 

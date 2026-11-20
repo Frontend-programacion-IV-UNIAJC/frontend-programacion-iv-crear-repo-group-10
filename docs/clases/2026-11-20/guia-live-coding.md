@@ -45,7 +45,7 @@ Mockup de referencia del detalle: `docs/04-mockup/detalle-escritorio.png` y `det
 - **Fragmentos de VS Code** en `main`: `.vscode/api-2026-11-20.code-snippets` (sección 4).
 - Código de referencia: `Frontend_programacion_IV/Clase-2026-11-20-API/codigo-live-coding/`.
 
-> **GitHub Actions está bloqueado.** Desde el 7-nov todos los repositorios de la organización `Frontend-programacion-IV-UNIAJC` fallan en 5 segundos con *"The job was not started because your account is locked due to a billing issue"*. No es el código: el trabajo no arranca. Se resuelve en **Settings → Billing and plans** de la organización (lo puede hacer solo un propietario). Mientras tanto, el sitio publicado se queda en la versión del 17-oct y la prueba es local: `npm run build` y `npm run preview`.
+> **GitHub Actions está bloqueado.** Desde el 7-nov todos los repositorios de la organización `Frontend-programacion-IV-UNIAJC` fallan en 5 segundos con *"The job was not started because your account is locked due to a billing issue"*. No es el código: el trabajo no arranca. Se resuelve en **Settings → Billing and plans** de la organización (lo puede hacer solo un propietario). Además, Pages estaba configurado para publicar desde `main` / `(root)`, que es el código fuente: por eso el sitio muestra "Hola Mundo". **Solución, ya aplicada en `main`:** se publica desde la rama **`gh-pages`** con `npm run deploy` (`astro build` + `gh-pages -d dist --dotfiles`), con `public/.nojekyll` para que Jekyll no ignore `_astro/`. El trabajo *pages build and deployment* lo maneja GitHub y sí funciona con el bloqueo. Falta solo, una vez: **Settings → Pages → Deploy from a branch → `gh-pages` / `(root)`**.
 
 ### Antes de entrar al salón
 
@@ -71,7 +71,7 @@ npm run dev        # http://localhost:4321/frontend-programacion-iv-crear-repo-g
 | 35-50 | **Paso 3** · adaptador, imagen, catálogo y portada · error intencional sin `await` · ver código fuente | 9, 10, 11, 7 |
 | 50-58 | **Paso 4** · red de seguridad · error intencional con la dirección mal escrita | 12 |
 | 58-80 | **Paso 5** · página de detalle con `getStaticPaths` | 13 |
-| 80-90 | **Paso 6** · build, 320 px, commit · presentar el taller | 14, 15 |
+| 80-90 | **Paso 6** · build, 320 px, commit, `npm run deploy` · presentar el taller | 14, 15 |
 | 90-100 | Descanso | |
 | 100-170 | **Taller en parejas** (70 min) | |
 | 170-180 | Cierre: dos parejas muestran su catálogo con datos reales | 16 |
@@ -123,9 +123,9 @@ Atajos que ayudan: `Ctrl+P` abre un archivo por nombre · `Ctrl+\` divide la pan
 
 ### 3. Actions en rojo: no es el código · 4 min
 
-**Qué decir:** Desde el 7 de noviembre, Actions sale en rojo en 5 segundos en todos los repositorios de la organización, también en los de ustedes. Si entran al trabajo, el mensaje dice que la cuenta está bloqueada por un problema de facturación: el trabajo ni siquiera arranca, así que no hay error de código que buscar. Mientras se resuelve, la prueba es local: npm run build tiene que terminar sin errores y npm run preview muestra el sitio tal como se publicaría.
+**Qué decir:** Desde el 7 de noviembre, Actions sale en rojo en 5 segundos en todos los repositorios de la organización, también en los de ustedes. Si entran al trabajo, el mensaje dice que la cuenta está bloqueada por un problema de facturación: el trabajo ni siquiera arranca, así que no hay error de código que buscar. Y había otro problema: Pages estaba publicando desde main, que es el código fuente, no el sitio. Por eso se veía «Hola Mundo». La solución no necesita Actions: construimos en el computador y subimos solo dist/ a una rama llamada gh-pages con npm run deploy. GitHub sirve esa rama tal cual, y ese trabajo sí funciona.
 
-**Cómo hacerlo:** Abra Actions de cualquier repositorio, entre al trabajo en rojo y muestre la anotación. Luego corra npm run build y npm run preview en vivo.
+**Cómo hacerlo:** Abra Actions de cualquier repositorio, entre al trabajo en rojo y muestre la anotación. Luego muestre Settings → Pages con la fuente gh-pages y el sitio publicado. El npm run deploy se hace en vivo en el Paso 6.
 
 ### 4. ¿Qué es una API? · 4 min
 
@@ -197,7 +197,7 @@ Atajos que ayudan: `Ctrl+P` abre un archivo por nombre · `Ctrl+\` divide la pan
 
 **Qué decir:** Ahora cada pareja conecta su propia API. Primero miran la respuesta cruda, después escriben su api.js con su adaptador y su red de seguridad, y al final la página de detalle con getStaticPaths. Entrega el 27 de noviembre, integrada en main con pull request: se califica lo que esté en main.
 
-**Cómo hacerlo:** Muestre la rúbrica del taller y recuerde la evidencia local mientras Actions esté bloqueado.
+**Cómo hacerlo:** Muestre la rúbrica del taller y la sección «Publicar en GitHub Pages desde la rama gh-pages»: .nojekyll, gh-pages, el script deploy y Settings → Pages.
 
 ### 16. En la siguiente: interactividad · 1 min
 
@@ -561,7 +561,15 @@ git commit -m "feat: datos reales desde TheMealDB, adaptador y pagina de detalle
 git push
 ```
 
-Mientras Actions esté bloqueado, el `push` guarda el trabajo pero no publica.
+4. Publicar desde la rama `gh-pages` (después de integrar en `main`):
+
+```bash
+npm run deploy     # construye y sube dist/ a la rama gh-pages: debe decir Published
+```
+
+La primera vez: **Settings → Pages → Deploy from a branch → `gh-pages` / `(root)` → Save**. En *Actions* aparece *pages build and deployment* en verde y el sitio queda en la URL de siempre.
+
+> Qué decir: "`main` es el código; `gh-pages` es el sitio construido. GitHub sirve la rama `gh-pages` tal cual. El archivo `.nojekyll` evita que Jekyll esconda la carpeta `_astro`, donde está el CSS." 
 
 ---
 
@@ -573,7 +581,8 @@ Enunciado: [[Taller 2026-11-20 - Datos reales desde la API]]. Revisión de un mi
 2. ¿Tienen un solo archivo `src/services/api.js`, o hay `fetch` regados por las páginas?
 3. ¿Sus tarjetas siguen igual? Si las cambiaron, falta el adaptador.
 4. Escriban mal la dirección de su API: ¿el build termina?
-5. ¿Su API pide **clave**? Va en `.env` como `PUBLIC_…` o, mejor, se usa una API sin clave; nunca la clave escrita en el código que se sube a GitHub.
+5. ¿Ya prepararon la publicación desde `gh-pages`? (`public/.nojekyll`, `npm install -D gh-pages`, script `deploy`, Pages apuntando a `gh-pages`).
+6. ¿Su API pide **clave**? Va en `.env` como `PUBLIC_…` o, mejor, se usa una API sin clave; nunca la clave escrita en el código que se sube a GitHub.
 
 Problemas típicos de las APIs de los grupos:
 
@@ -604,4 +613,6 @@ Problemas típicos de las APIs de los grupos:
 | El build se queda pegado | La API no contesta: falta `AbortSignal.timeout(8000)` |
 | El `console.log` no aparece en el navegador | El frontmatter corre en el build: el mensaje está en la terminal |
 | Recetas nuevas en la API que no aparecen | Los datos se leen en el build: hay que volver a construir |
-| Actions en rojo en 5 segundos | Bloqueo de facturación de la organización, no el código. Probar con `npm run build` y `npm run preview` |
+| Actions en rojo en 5 segundos | Bloqueo de facturación de la organización, no el código. Publicar con `npm run deploy` a la rama `gh-pages` |
+| El sitio publicado muestra el README o "Hola Mundo" | Pages apunta a `main`. Cambiarlo a `gh-pages` en *Settings → Pages* |
+| El sitio publicado sale sin estilos | Falta `public/.nojekyll` o `--dotfiles` en el script `deploy` |
