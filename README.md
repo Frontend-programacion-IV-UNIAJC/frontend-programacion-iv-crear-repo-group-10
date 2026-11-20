@@ -1,3 +1,26 @@
+# SaborU · Programación IV Frontend (grupo 10)
+
+Sitio: https://frontend-programacion-iv-uniajc.github.io/frontend-programacion-iv-crear-repo-group-10/
+
+## Publicar en GitHub Pages desde la rama `gh-pages`
+
+El sitio se publica desde la rama **`gh-pages`**, que solo contiene el sitio ya construido (`dist/`). `main` tiene el código fuente.
+
+```sh
+git switch main
+git pull
+npm install
+npm run deploy     # astro build + sube dist/ a la rama gh-pages
+```
+
+Configuración, una sola vez: **Settings → Pages → Build and deployment → Source: Deploy from a branch → Branch: `gh-pages` / `(root)` → Save**.
+
+- `public/.nojekyll` evita que GitHub procese el sitio con Jekyll, que ignora la carpeta `_astro/` (sin ese archivo el sitio sale sin estilos).
+- `base` en `astro.config.mjs` debe ser el nombre del repositorio.
+- El flujo `.github/workflows/deploy.yml` quedó solo para ejecutarlo a mano (`workflow_dispatch`) mientras GitHub Actions esté bloqueado por facturación.
+
+---
+
 # Astro Starter Kit: Minimal
 
 ```sh
