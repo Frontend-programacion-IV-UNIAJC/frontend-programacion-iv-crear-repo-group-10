@@ -11,7 +11,7 @@ tags: [clase, frontend, taller]
 **Programación IV · Frontend · UNIAJC · 13 de noviembre de 2026**
 En parejas. 40 minutos en clase y el resto en casa. **Entrega: antes de la próxima clase (20-nov-2026).**
 
-Volver a 2026-11-13 - Componentes del catalogo · Guía del profesor: Guia 2026-11-13 - Componentes del catalogo
+Volver a [[2026-11-13 - Componentes del catalogo]] · Guía del profesor: [[Guia 2026-11-13 - Componentes del catalogo]]
 
 ## Objetivo
 
@@ -34,7 +34,7 @@ Que la página de listado de **su** proyecto se vea como su mockup, con tarjetas
 | 3 | La imagen de la tarjeta con `width`, `height`, `alt` y `aspect-ratio` | Con *Slow 3G* el contenido no salta |
 | 4 | `CardGrid.astro` con `repeat(auto-fit, minmax(…, 1fr))` | Una columna a 375 px y tres en escritorio, sin `@media` |
 | 5 | Su página de listado usa `CardGrid` con los seis elementos | Se ve como su mockup |
-| 6 | `npm run build`, commit y `push` | Check verde en Actions |
+| 6 | `npm run build`, commit y `push` a su rama | El build termina sin errores (ver «Actions bloqueado» abajo) |
 
 ## Parte 2 · En casa (hasta el 20-nov)
 
@@ -48,12 +48,38 @@ Que la página de listado de **su** proyecto se vea como su mockup, con tarjetas
    document.documentElement.scrollWidth === document.documentElement.clientWidth
    ```
 
-## Entrega (aula virtual o README)
+## Actions bloqueado: cómo probar mientras tanto
 
-1. URL publicada de su listado y de su `/estados`.
+Desde el 7-nov, GitHub Actions falla en 5 segundos en todos los repositorios del curso con el mensaje *"The job was not started because your account is locked due to a billing issue"*. **No es su código**: el trabajo no arranca por un bloqueo de facturación de la organización. Mientras se resuelve:
+
+```bash
+npm run build      # debe terminar sin errores
+npm run preview    # abre el sitio como quedaría publicado
+```
+
+La captura de esas dos cosas reemplaza al check verde y a la URL publicada.
+
+## Entrega: el taller debe quedar integrado en `main`
+
+**Se revisa y se califica lo que esté en la rama `main` del repositorio en la fecha de entrega.** Un trabajo que se quede en otra rama sin fusionar no está entregado.
+
+```bash
+git switch -c feature/catalogo          # si trabajaron directo en main, sáltense esta línea
+git add .
+git commit -m "feat: componentes del catalogo con datos de prueba y pagina de estados"
+git push -u origin feature/catalogo
+```
+
+1. Abran el pull request de `feature/catalogo` hacia `main`; el otro integrante lo revisa y lo aprueba.
+2. **Merge pull request → Confirm merge.**
+3. Verifiquen: `git switch main`, `git pull`, `npm run build`.
+
+## Evidencia (aula virtual o README)
+
+1. URL publicada de su listado y de su `/estados` **o**, mientras Actions esté bloqueado, captura de `npm run build` sin errores y de las dos páginas en `npm run preview`.
 2. Captura del listado a 320 px y en escritorio, al lado de su mockup.
 3. Su archivo `datos-de-prueba.js` y, en dos líneas, de qué campos de la API sale cada dato de la tarjeta.
-4. Enlace al último commit. En **Insights → Contributors** deben aparecer los dos integrantes.
+4. Enlace al pull request fusionado en `main`. En **Insights → Contributors** deben aparecer los dos integrantes.
 
 ## Calificación (100 puntos)
 
@@ -65,9 +91,10 @@ Que la página de listado de **su** proyecto se vea como su mockup, con tarjetas
 | `CardGrid` con `auto-fit` y `minmax`, sin media queries | 15 |
 | Listado igual al mockup, con filtros, buscador y paginación visibles | 15 |
 | Página `/estados` con los cuatro estados | 15 |
-| 320 px sin desplazamiento horizontal y sitio publicado con Actions en verde | 10 |
+| 320 px sin desplazamiento horizontal y build sin errores (publicado, cuando Actions vuelva) | 10 |
 
-- Un `npm run build` que falla en Actions resta 15 puntos.
+- Solo se califica lo que esté integrado en `main` en la fecha de entrega.
+- Un `npm run build` que falla resta 15 puntos. Un fallo de Actions por el bloqueo de facturación **no** resta.
 - **Reto opcional (+5):** que los filtros se generen solos desde los datos con `new Set()`, sin escribir las categorías a mano.
 
 ## Errores frecuentes
