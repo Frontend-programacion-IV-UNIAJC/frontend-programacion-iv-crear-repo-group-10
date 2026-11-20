@@ -11,7 +11,7 @@ tags: [clase, frontend, taller]
 **Programación IV · Frontend · UNIAJC · 20 de noviembre de 2026**
 En parejas. 70 minutos en clase y el resto en casa. **Entrega: 27-nov-2026, antes de clase.**
 
-Volver a [[Clase 05 - Datos reales desde la API]] · Guía del profesor: [[Guia 2026-11-20 - Datos reales desde la API]]
+Guía del profesor: [[Guia 2026-11-20 - Datos reales desde la API]]
 
 ## Objetivo
 
