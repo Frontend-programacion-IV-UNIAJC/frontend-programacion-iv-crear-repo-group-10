@@ -1,28 +1,27 @@
 ---
-//CardGrid .astro
-// rejilla de tarjetas 
+// CardGrid.astro
+// Rejilla de tarjetas. Una sola linea de Grid reemplaza tres media queries.
+import Card from "./Card.astro";
 
-import Card  from "./Card.astro";
-
-const {recetas} = Astro.props;
-
+const { recetas } = Astro.props;
 ---
 
 <ul class="rejilla">
-    {recetas.map((receta) => (
+  {recetas.map((receta) => (
     <li>
-        <Card receta={receta} />
+      <Card receta={receta} />
     </li>
-    ))}
+  ))}
 </ul>
 
 <style>
-    .rejila{
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-        gap: var(--esp-4);
-        list-style: none;
-        margin: 0;
-        padding: 0;
-    }
+  .rejilla {
+    display: grid;
+    /* Caben tantas columnas de 260 px como permita el ancho; lo que sobra se reparte */
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--esp-4);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
 </style>
