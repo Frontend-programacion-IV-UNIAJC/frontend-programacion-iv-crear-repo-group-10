@@ -1,6 +1,8 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Boton from "../components/ui/Boton.astro";
+import CardGrid from "../components/catalogo/CardGrid.astro";
+import { recetas } from "../data/datos-de-prueba.js";
 
 const base = import.meta.env.BASE_URL;
 ---
@@ -47,7 +49,6 @@ const base = import.meta.env.BASE_URL;
   </section>
 
   <!-- ============ Destacadas ============ -->
-  <!-- Las tarjetas llegan con Card y CardGrid. -->
   <section class="contenedor seccion">
     <div class="seccion__encabezado">
       <div>
@@ -56,7 +57,7 @@ const base = import.meta.env.BASE_URL;
       </div>
       <Boton href={`${base}catalogo`} variante="fantasma">Ver todas</Boton>
     </div>
-    <p class="pendiente">Aqui van las tres recetas destacadas.</p>
+    <CardGrid recetas={recetas.slice(0, 3)} />
   </section>
 
   <!-- ============ Como funciona ============ -->
@@ -176,14 +177,6 @@ const base = import.meta.env.BASE_URL;
     margin: 0;
   }
 
-  .pendiente {
-    padding: var(--esp-5);
-    border: 2px dashed var(--color-borde-fuerte);
-    border-radius: var(--radio-m);
-    color: var(--color-texto-tenue);
-    text-align: center;
-    margin: 0;
-  }
 
   /* ---- Pasos ---- */
 
