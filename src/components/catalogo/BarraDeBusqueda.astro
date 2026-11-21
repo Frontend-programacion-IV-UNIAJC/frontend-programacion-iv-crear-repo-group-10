@@ -1,17 +1,17 @@
 ---
 // BarraDeBusqueda.astro
-// hoy solo se ve. empieza a buscar cuando agregemos javascript
-
-const { placeholder  = "Buscar receta por nombre o ingrediente"} = Astro.props;
+// Hoy solo se ve. Empieza a buscar cuando agreguemos JavaScript.
+const { placeholder = "Buscar receta por nombre o ingrediente" } = Astro.props;
 ---
 
 <form class="busqueda" role="search" onsubmit="return false">
-    <label class="solo-lectores" for="buscar">Buscar recetas </label>
-    <svg class="busqueda__icono" viewBox="0 24 24" width="18" height="18" fill="none" stroke="currentColor" stro-width="2" stroke-linecap="round" aria-hiddden="true">
-        <circle cx="11" cy="11" r="7"/>
-        <path d="m20 20-3.5-3.5"/>
-    </svg>
-    <input class="busqueda__campo" id="buscar" type="search" placeholder={placeholder} />
+  <label class="solo-lectores" for="buscar">Buscar recetas</label>
+  <svg class="busqueda__icono" viewBox="0 0 24 24" width="18" height="18" fill="none"
+    stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+    <circle cx="11" cy="11" r="7" />
+    <path d="m20 20-3.5-3.5" />
+  </svg>
+  <input class="busqueda__campo" id="buscar" type="search" placeholder={placeholder} />
 </form>
 
 <style>
