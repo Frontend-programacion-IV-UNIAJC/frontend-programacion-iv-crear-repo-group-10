@@ -124,6 +124,7 @@ GitHub Actions está bloqueado por facturación en la organización (*"your acco
 ```bash
 git switch main
 git pull
+npm install           # por si cambiaron de rama: deja instalado gh-pages
 npm run deploy        # debe terminar con: Published
 ```
 
@@ -181,3 +182,9 @@ git push -u origin feature/catalogo
 | Desplazamiento horizontal a 320 px | Falta `min-width: 0` en la columna de resultados o en la fila de filtros |
 | El sitio publicado muestra el README | Pages apunta a `main`: cámbienlo a `gh-pages` |
 | El sitio publicado sale sin estilos | Falta `public/.nojekyll` o `--dotfiles` en el script |
+| Al hacer clic en una tarjeta sale 404 | **Es lo esperado:** la página de detalle se construye en el taller de datos reales desde la API |
+| Todo el código sale como texto o `Astro is not defined` | El archivo `.astro` no empieza con `---` en la línea 1, columna 1. Si pegaron el código corrido, `Shift+Tab` hasta pegarlo al borde |
+| Corregí el `import` de la tarjeta y la página se ve igual | Es normal: la etiqueta solo aparece cuando la tarjeta tiene su cuerpo (título y etiquetas) |
+| `Parameter 'c' implicitly has an 'any' type` | Aviso del editor (el build pasa): el componente no declara sus props. `interface Props { categorias?: string[]; dificultades?: string[] }` en el frontmatter |
+| `git switch main` dice *"Please move or remove them before you switch branches"* | Hay archivos nuevos sin guardar que también existen en la otra rama. Primero `git add -A` y `git commit` (o `git stash push -u`) y después cambien de rama |
+| `npm run deploy` dice `Filename too long` | En PowerShell: `$env:CACHE_DIR = "$env:TEMP\ghp"; npm run deploy` |

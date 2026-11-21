@@ -137,10 +137,13 @@ on:
 ```bash
 git switch main
 git pull
+npm install        # por si cambiaron de rama: deja instalado gh-pages
 npm run deploy
 ```
 
 Debe terminar con `Published`. La primera vez crea la rama `gh-pages` en GitHub.
+
+> Si sale `Filename too long`, la carpeta del proyecto está muy adentro. En PowerShell publiquen así, con una carpeta temporal corta: `$env:CACHE_DIR = "$env:TEMP\ghp"; npm run deploy`
 
 ### Configurar Pages (una sola vez, después del primer `npm run deploy`)
 
@@ -193,7 +196,16 @@ Debe terminar con `Published`. La primera vez crea la rama `gh-pages` en GitHub.
 | El sitio publicado muestra el README o "Hola Mundo" | Pages apunta a `main`. Cámbienlo a la rama `gh-pages` en *Settings → Pages* |
 | El sitio publicado sale sin estilos | Falta `public/.nojekyll`, o falta `--dotfiles` en el script `deploy` |
 | La portada abre pero `/catalogo` da 404, o las imágenes no cargan | `base` en `astro.config.mjs` no es el nombre del repositorio, o falta `${base}` en un enlace |
-| `npm run deploy` dice `Filename too long` | La carpeta del proyecto está muy adentro: muévanla a una ruta corta (`C:\proyectos\...`) o corran `git config --global core.longpaths true` |
+| `npm run deploy` dice `Filename too long` | La carpeta del proyecto está muy adentro. En PowerShell: `$env:CACHE_DIR = "$env:TEMP\ghp"; npm run deploy`. Otras salidas: mover el proyecto a una ruta corta (`C:\proyectos\...`) o `git config --global core.longpaths true` |
+| `npm run deploy` dice que no encuentra `gh-pages` | Corrieron `npm install` en otra rama que no lo tenía. En `main`: `npm install` |
+| `ReferenceError: recetas is not defined` (en la portada o en el listado) | Cambiaron el `import` pero falta llamar la función: `const recetas = await obtenerRecetas();` debajo de `const base` |
+| `The symbol 'recetas' has already been declared` | `recetas` se importa de los datos de prueba **y** se declara con `obtenerRecetas()`. Quiten `recetas` del `import` de los datos de prueba |
+| `Unexpected token '<' … is not valid JSON` | La dirección de la API está mal escrita (por ejemplo `search.php:s=` en lugar de `search.php?s=`) y llegó una página HTML de error. Ábranla en el navegador |
+| Fotos rotas en las tarjetas, con la dirección `…/<repo>/https://…` | `Card.astro` le pega `base` a una imagen que ya trae `https://`: `` const src = imagen.startsWith("http") ? imagen : `${base}${imagen}`; `` y `src={src}` |
+| `Parameter 'r' implicitly has an 'any' type` | Aviso del editor (el build pasa): `obtenerRecetas` no dice qué devuelve. En `api.js`, un `@typedef` de su elemento y `/** @returns {Promise<Receta[]>} */` encima de la función |
+| `Parameter 'c' implicitly has an 'any' type` en un componente | El componente no declara sus props: `interface Props { categorias?: string[] }` en el frontmatter |
+| Todo el código sale como texto o `Astro is not defined` | El archivo `.astro` no empieza con `---` en la línea 1, columna 1 (hay líneas vacías o espacios antes). `Shift+Tab` hasta pegarlo al borde |
+| La página de detalle da 404 en `npm run dev` | Reinicien `npm run dev` después de crear `[id].astro`, y revisen que esté en `src/pages/<listado>/`, no en `components` |
 | `npm run deploy` pide usuario o falla al subir | Es el mismo permiso de `git push`: primero verifiquen que `git push` funciona |
 | Publicaron y no cambió nada | Esperen el check verde de *pages build and deployment* y recarguen con `Ctrl+F5` |
 
