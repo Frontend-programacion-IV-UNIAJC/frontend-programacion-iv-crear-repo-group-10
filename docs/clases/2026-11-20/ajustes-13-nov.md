@@ -74,7 +74,7 @@ Se ajustó [[Taller 2026-11-13 - Componentes del catalogo]] en tres puntos:
 2. **Actions bloqueado:** el "check verde" y la URL publicada se reemplazan por la captura de `npm run build` y `npm run preview`.
 3. **Calificación:** un fallo de Actions por facturación no resta; un `npm run build` que falla sí sigue restando 15.
 
-La entrega era hoy (20-nov). Como los cambios afectan la forma de entregar, conviene dar unos días más para el merge a `main`, por ejemplo hasta el 23-nov.
+Ese taller **no se alcanzó a dejar** a los estudiantes. En su lugar va [[Taller 2026-11-20 - Puesta al dia del catalogo]] (entrega 24-nov), con su guía [[Live coding 2026-11-20 - Puesta al dia del catalogo]] sobre la rama `puesta-al-dia-catalogo`: un commit por paso desde donde quedó la clase hasta el catálogo corregido.
 
 ## 4. Lo que quedó en el repositorio
 
@@ -84,5 +84,6 @@ La entrega era hoy (20-nov). Como los cambios afectan la forma de entregar, conv
 | `api-2026-11-20` | La solución de hoy: `src/services/api.js`, `catalogo/[id].astro` y los cambios en catálogo, portada y tarjeta. 31 páginas |
 | `gh-pages` | (Se crea con el primer `npm run deploy`.) Solo el sitio construido: es lo que publica GitHub Pages |
 | `catalogo-2026-11-13` | La solución del 13-nov (ya incluida en `main`) |
+| `puesta-al-dia-catalogo` | Live coding de la puesta al día: parte de `30f8ac2` (donde quedó la clase) y llega, en 8 commits, al catálogo corregido de `main` |
 
 Nada de esto está subido a GitHub todavía: los commits están en el computador del profesor.

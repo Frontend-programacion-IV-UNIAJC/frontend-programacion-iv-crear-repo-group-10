@@ -21,7 +21,7 @@ Que su listado y su portada muestren los datos reales de **su** API, que cada el
 
 ## Antes de empezar (10 min)
 
-- [ ] El taller del 13-nov está integrado en `main`: tarjetas con datos de prueba, `CardGrid` y `/estados`.
+- [ ] El taller de **puesta al día del catálogo** está integrado en `main`: tarjetas con datos de prueba, `CardGrid`, `/estados` y destacados.
 - [ ] `git switch main`, `git pull` y `npm run build` sin errores.
 - [ ] Rama nueva: `git switch -c feature/datos-api`.
 - [ ] Abran en el navegador **la dirección de su API** que devuelve la lista y anoten:
@@ -45,7 +45,7 @@ Que su listado y su portada muestren los datos reales de **su** API, que cada el
 | 3 | Su listado usa `await obtenerX()` | Se ven datos reales y el conteo dice cuántos llegaron |
 | 4 | Red de seguridad: `AbortSignal.timeout`, `respuesta.ok` y `try/catch` que devuelve sus datos de prueba | Con la dirección mal escrita, `npm run build` termina y muestra su aviso en la terminal |
 | 5 | `npm run build` y commit | Sin errores |
-| 6 | Preparar la publicación desde la rama `gh-pages` (`.nojekyll`, `gh-pages`, script `deploy`; ver abajo) | `npm run deploy` termina con `Published` y la URL abre su sitio con estilos |
+| 6 | Preparar la publicación desde la rama `gh-pages` (`.nojekyll`, `gh-pages`, script `deploy`; ver abajo). Si ya lo hicieron en el taller de puesta al día del catálogo, sáltenlo | `npm run deploy` termina con `Published` y la URL abre su sitio con estilos |
 
 ## Parte 2 · En casa (hasta el 27-nov)
 
