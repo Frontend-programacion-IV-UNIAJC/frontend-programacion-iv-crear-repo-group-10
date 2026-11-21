@@ -1,0 +1,30 @@
+name: Publicar en GitHub Pages
+
+# Mientras GitHub Actions este bloqueado por facturacion, el sitio se publica
+# desde la rama gh-pages con "npm run deploy" (ver README).
+# Este flujo queda solo para ejecutarlo a mano cuando Actions vuelva.
+on:
+    workflow_dispatch:
+
+permissions:
+    contents: read
+    pages: write
+    id-token: write
+
+
+jobs:
+    construir:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - uses: withastro/action@v3
+              with:
+                node-version: 22
+
+    publicar:
+        needs: construir
+        runs-on: ubuntu-latest
+        environment:
+            name: github-pages
+        steps:
+            - uses: actions/deploy-pages@v4
