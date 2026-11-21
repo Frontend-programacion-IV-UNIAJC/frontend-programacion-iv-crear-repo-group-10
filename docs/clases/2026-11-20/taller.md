@@ -49,7 +49,7 @@ Que su listado y su portada muestren los datos reales de **su** API, que cada el
 
 ## Parte 2 · En casa (hasta el 27-nov)
 
-1. **Página de detalle** `src/pages/<listado>/[id].astro` con `getStaticPaths`: una página por elemento, con imagen grande, título, etiquetas, la información que dé su API y un enlace "Volver". Debe parecerse a su mockup de detalle.
+1. **Página de detalle** `src/pages/<listado>/[id].astro` con `getStaticPaths`: una página por elemento, con imagen grande, título, etiquetas, la información que dé su API y un enlace "Volver". Debe parecerse a su mockup de detalle. **El código completo, paso a paso, está en el Anexo al final de este taller.**
 2. **Las tarjetas enlazan al detalle** (el `href` del título apunta a `${base}<listado>/${id}`) y ninguna da 404.
 3. **Filtros desde los datos:** las opciones de sus filtros se calculan con `new Set()` sobre los datos reales, no escritas a mano.
 4. **Destacados en la portada** con datos reales (`slice(0, 3)`).
@@ -196,3 +196,314 @@ Debe terminar con `Published`. La primera vez crea la rama `gh-pages` en GitHub.
 | `npm run deploy` dice `Filename too long` | La carpeta del proyecto está muy adentro: muévanla a una ruta corta (`C:\proyectos\...`) o corran `git config --global core.longpaths true` |
 | `npm run deploy` pide usuario o falla al subir | Es el mismo permiso de `git push`: primero verifiquen que `git push` funciona |
 | Publicaron y no cambió nada | Esperen el check verde de *pages build and deployment* y recarguen con `Ctrl+F5` |
+
+---
+
+## Anexo · La página de detalle paso a paso (ejemplo de SaborU)
+
+Este es el código completo de la página de detalle de SaborU, probado con TheMealDB: 25 recetas generan 25 páginas. **Adáptenlo a su API:** cambien `receta` por el nombre de su elemento, `obtenerRecetas` por su función y los campos (`nombre`, `categoria`, `ingredientes`…) por los de su adaptador.
+
+### Paso 1 · Crear el archivo
+
+Creen la carpeta y el archivo `src/pages/catalogo/[id].astro` (con el nombre de su listado en lugar de `catalogo`). Los **corchetes** en el nombre dicen: "esta parte de la dirección cambia". El mismo archivo sirve para `/catalogo/52772`, `/catalogo/53322` y todas las demás.
+
+> En Astro, la primera línea del archivo tiene que ser `---`, sin líneas vacías ni espacios antes. Si al pegar el código queda corrido a la derecha, selecciónenlo y presionen `Shift+Tab` hasta que quede pegado al borde.
+
+### Paso 2 · El frontmatter con `getStaticPaths`
+
+```astro
+---
+// catalogo/[id].astro
+// UNA plantilla que genera UNA pagina por receta: /catalogo/52772, /catalogo/53322...
+import Layout from "../../layouts/Layout.astro";
+import Etiqueta from "../../components/ui/Etiqueta.astro";
+import Boton from "../../components/ui/Boton.astro";
+import Estado from "../../components/ui/Estado.astro";
+import { obtenerRecetas } from "../../services/api.js";
+
+// getStaticPaths le dice a Astro QUE paginas construir. Se ejecuta en el build.
+// params -> la direccion de cada pagina. props -> los datos que recibe.
+export async function getStaticPaths() {
+  const recetas = await obtenerRecetas();
+  return recetas.map((receta) => ({
+    params: { id: receta.id },
+    props: { receta },
+  }));
+}
+
+const { receta } = Astro.props;
+const { nombre, categoria, area, imagen, minutos, dificultad } = receta;
+// Los datos de prueba no traen ingredientes ni pasos: se usa una lista vacia.
+const ingredientes = receta.ingredientes ?? [];
+const pasos = receta.pasos ?? [];
+
+const base = import.meta.env.BASE_URL;
+const src = imagen.startsWith("http") ? imagen.replace("/medium", "/large") : `${base}${imagen}`;
+---
+```
+
+Cómo funciona:
+
+- **`getStaticPaths` responde una pregunta: ¿qué páginas construyo?** Una por receta. Se ejecuta durante el build, igual que el `fetch`.
+- Cada elemento que devuelve tiene **`params`** (la dirección de esa página: el `id` reemplaza los corchetes) y **`props`** (los datos que recibe). Lo que va en `props` llega a `Astro.props`.
+- El `id` debe ser **texto**. Si su API lo da como número, usen `params: { id: String(item.id) }`.
+- `?? []` evita errores cuando un elemento no trae una lista (por ejemplo, los datos de prueba no traen ingredientes ni pasos).
+- `replace("/medium", "/large")` pide la foto grande, porque en el detalle la imagen ocupa media pantalla. Revisen si su API ofrece tamaños.
+
+### Paso 3 · El marcado
+
+Va debajo del segundo `---`:
+
+```astro
+<Layout titulo={`${nombre} — SaborU`} descripcion={`Receta de ${nombre}: ${categoria}, ${area}.`} activo="catalogo">
+  <div class="contenedor detalle">
+    <a class="detalle__volver" href={`${base}catalogo`}>
+      <span aria-hidden="true">‹</span> Volver al catalogo
+    </a>
+
+    <section class="detalle__cabecera">
+      <img class="detalle__imagen" src={src} alt={nombre} width="640" height="480" />
+
+      <div class="detalle__info">
+        <p class="rotulo">{categoria}</p>
+        <div class="detalle__titulo">
+          <h1>{nombre}</h1>
+          <button class="detalle__guardar" type="button" aria-pressed="false">
+            <span aria-hidden="true">♡</span> Guardar
+          </button>
+        </div>
+        <div class="detalle__etiquetas">
+          <Etiqueta tono="marca">{minutos} min aprox.</Etiqueta>
+          <Etiqueta>{dificultad}</Etiqueta>
+          <Etiqueta>{area}</Etiqueta>
+          {ingredientes.length > 0 && <Etiqueta>{ingredientes.length} ingredientes</Etiqueta>}
+        </div>
+      </div>
+    </section>
+
+    {pasos.length > 0 ? (
+      <div class="detalle__cuerpo">
+        <section class="detalle__ingredientes">
+          <h2>Ingredientes</h2>
+          <ul>
+            {ingredientes.map((ingrediente) => <li>{ingrediente}</li>)}
+          </ul>
+        </section>
+
+        <section>
+          <h2>Preparacion</h2>
+          <ol class="detalle__pasos">
+            {pasos.map((paso) => <li>{paso}</li>)}
+          </ol>
+        </section>
+      </div>
+    ) : (
+      <Estado
+        tipo="vacio"
+        titulo="Preparacion no disponible"
+        mensaje="No pudimos traer los pasos de esta receta. Intenta mas tarde."
+      >
+        <Boton href={`${base}catalogo`} variante="secundario">Ver otras recetas</Boton>
+      </Estado>
+    )}
+
+    {pasos.length > 0 && (
+      <div>
+        <Boton href={`${base}catalogo`} variante="secundario">Ver otras recetas</Boton>
+      </div>
+    )}
+  </div>
+</Layout>
+```
+
+Cómo funciona:
+
+- **Si hay pasos**, se muestran los ingredientes y la preparación. **Si no hay** (la API falló y se usaron los datos de prueba), se muestra el componente `Estado` con una salida, nunca una página vacía ni `undefined`.
+- `{ingredientes.length > 0 && …}` dibuja la etiqueta solo si hay ingredientes.
+- `alt={nombre}`: aquí la imagen **sí** informa (es la receta), por eso lleva texto alternativo. En la tarjeta del listado va vacío porque el título ya dice lo mismo.
+
+### Paso 4 · Los estilos
+
+Van al final del archivo:
+
+```astro
+<style>
+  .detalle {
+    display: grid;
+    gap: var(--esp-5);
+    padding-block: var(--esp-5);
+  }
+
+  .detalle__volver {
+    justify-self: start;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--esp-2);
+    min-height: 44px;
+    padding: 0 var(--esp-3);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-pildora);
+    background: var(--color-fondo);
+    color: var(--color-texto);
+    font-weight: 600;
+    text-decoration: none;
+  }
+
+  /* Celular: imagen arriba y datos debajo. Escritorio: dos columnas. */
+  .detalle__cabecera {
+    display: grid;
+    gap: var(--esp-4);
+    align-items: center;
+  }
+
+  @media (min-width: 900px) {
+    .detalle__cabecera {
+      grid-template-columns: 1fr 1fr;
+      gap: var(--esp-6);
+    }
+  }
+
+  .detalle__imagen {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--radio-l);
+    box-shadow: var(--sombra-2);
+    background: var(--color-superficie);
+  }
+
+  .detalle__info {
+    min-width: 0;
+  }
+
+  .detalle__titulo {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: var(--esp-3);
+  }
+
+  .detalle__titulo h1 {
+    margin: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .detalle__guardar {
+    flex-shrink: 0;
+    min-height: 44px;
+    padding: 0 var(--esp-3);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-pildora);
+    background: var(--color-fondo);
+    color: var(--color-texto);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .detalle__etiquetas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--esp-2);
+    margin-top: var(--esp-4);
+  }
+
+  .detalle__cuerpo {
+    display: grid;
+    gap: var(--esp-5);
+    align-items: start;
+  }
+
+  @media (min-width: 900px) {
+    .detalle__cuerpo {
+      grid-template-columns: 2fr 3fr;
+    }
+  }
+
+  .detalle__ingredientes {
+    padding: var(--esp-4);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-m);
+    background: var(--color-fondo);
+  }
+
+  .detalle__ingredientes ul {
+    margin: 0;
+    padding-left: var(--esp-4);
+  }
+
+  .detalle__ingredientes li {
+    padding: var(--esp-2) 0;
+    border-bottom: 1px solid var(--color-borde);
+  }
+
+  .detalle__ingredientes li:last-child {
+    border-bottom: 0;
+  }
+
+  .detalle__ingredientes li::marker {
+    color: var(--color-marca);
+  }
+
+  /* Pasos numerados en circulo, como el mockup */
+  .detalle__pasos {
+    counter-reset: paso;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: var(--esp-3);
+  }
+
+  .detalle__pasos li {
+    counter-increment: paso;
+    display: grid;
+    grid-template-columns: 2.25rem 1fr;
+    gap: var(--esp-3);
+    max-width: var(--ancho-lectura);
+  }
+
+  .detalle__pasos li::before {
+    content: counter(paso);
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: var(--radio-pildora);
+    background: var(--color-marca-suave);
+    color: var(--color-marca-oscuro);
+    font-family: var(--fuente);
+    font-weight: 700;
+  }
+</style>
+```
+
+Tres cosas para entender:
+
+1. **Dos columnas desde 900 px:** en el celular, imagen arriba y datos debajo (una columna); desde 900 px, `grid-template-columns: 1fr 1fr`.
+2. **`min-width: 0`** en `.detalle__info`: sin esto, un título largo empuja la columna y aparece desplazamiento horizontal a 320 px.
+3. **Pasos numerados en círculo con `counter()`:** `counter-reset: paso` en la lista, `counter-increment: paso` en cada `<li>` y `content: counter(paso)` en el `::before`. El número lo pone el CSS; en el HTML solo hay un `<ol>`.
+
+### Qué debe salir
+
+Desde una tarjeta del listado se llega a la página de ese elemento. En SaborU, `/catalogo/53322` muestra la foto grande, "POSTRE", "Flan", las etiquetas "35 min aprox.", "Facil", "Uruguayan" y "7 ingredientes", la lista de ingredientes y la preparación numerada. "Volver al catálogo" regresa.
+
+> En SaborU, los nombres y la preparación llegan **en inglés** porque TheMealDB no tiene otro idioma. Se traducen las categorías porque aparecen en los filtros; traducir cada receta necesitaría otro servicio. Si su API también viene en otro idioma, documéntenlo en el README.
+
+### Paso 5 · Probar, construir y guardar
+
+```bash
+npm run build      # debe decir cuántas páginas se construyeron: las de siempre + una por elemento
+npm run preview    # el sitio como se publicaría
+```
+
+1. En `dist/catalogo/` (o la carpeta de su listado) debe haber **una carpeta por elemento**, y ningún archivo `.js` en `dist/`.
+2. `F12` → simulador → **320 px** en el listado y en un detalle. En la consola debe salir `true`:
+
+   ```javascript
+   document.documentElement.scrollWidth === document.documentElement.clientWidth
+   ```
+
+3. Con el teclado: `Tab` llega a la tarjeta, al favorito y, en el detalle, a "Volver" y "Guardar". El foco se ve.
+4. Commit en su rama, pull request a `main`, merge y publicación con `npm run deploy` (secciones "Entrega" y "Publicar en GitHub Pages" de este taller).

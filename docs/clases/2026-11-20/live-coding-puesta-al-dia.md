@@ -78,6 +78,8 @@ La rama ya trae `.vscode/live-coding.code-snippets` del 13-nov. Los `-todo` son 
 
 Abre `/catalogo` en `npm run dev`: las tarjetas tienen foto (rota) y nada más. Abre `src/components/catalogo/Card.astro`.
 
+> **Ojo: la tarjeta solo se ve bien después de 1.4.** Los subpasos 1.1, 1.2 y 1.3 corrigen errores que **todavía no se ven**: la etiqueta, la dificultad y el ícono se usan en el cuerpo de la tarjeta, que se agrega en 1.4. Después de 1.1 la página se ve **igual que antes**, y eso es lo esperado. Y la foto sigue rota hasta el **Paso 4**, porque las imágenes todavía no existen en `public/`. Díselo al grupo antes de empezar para que nadie piense que algo falló.
+
 **1.1** El import:
 
 ```astro
@@ -85,7 +87,7 @@ import { Etiqueta } from "../ui/Etiqueta.astro";   // antes
 import Etiqueta from "../ui/Etiqueta.astro";       // ahora
 ```
 
-> Qué decir: "Un componente `.astro` se exporta **por defecto**: se importa sin llaves. Las llaves son para lo que se exporta con nombre, como `export const recetas`. Este error no rompió el build porque la tarjeta todavía no usaba la etiqueta: en cuanto la usemos, falla."
+> Qué decir: "Un componente `.astro` se exporta **por defecto**: se importa sin llaves. Las llaves son para lo que se exporta con nombre, como `export const recetas`. Este error no rompió el build porque la tarjeta todavía no usaba la etiqueta: en cuanto la usemos, falla. Por eso, al corregirlo, la página **no cambia**: la etiqueta aparece cuando agreguemos el cuerpo en 1.4."
 
 **1.2** La desestructuración: `dficultad` → `dificultad`.
 
@@ -110,7 +112,7 @@ import Etiqueta from "../ui/Etiqueta.astro";       // ahora
 
 > Qué decir: "El enlace del título tiene un `::after` que cubre toda la tarjeta (está en el CSS): por eso toda la tarjeta es clicable con un solo enlace. El favorito queda encima con `z-index: 2`."
 
-**Qué debe salir:** tarjetas con título, "Pollo · Japonesa" y dos etiquetas. Todavía una debajo de otra.
+**Qué debe salir (después de 1.4):** tarjetas con título enlazado, "Pollo · Japonesa" y dos etiquetas ("Media", "45 min aprox."). Todavía una debajo de otra (se arregla en el Paso 2) y con la foto rota (se arregla en el Paso 4).
 
 ## Paso 2 (3 min) · La rejilla
 
@@ -139,7 +141,7 @@ import Etiqueta from "../ui/Etiqueta.astro";       // ahora
 
 ## Paso 4 (2 min) · Las imágenes de prueba
 
-Los datos dicen `imagen: "img/recetas/pollo-teriyaki.svg"`, pero la carpeta no existe. Copia las seis imágenes a `public/img/recetas/`:
+Aquí se arreglan las **fotos rotas** que venían desde el Paso 1. Los datos dicen `imagen: "img/recetas/pollo-teriyaki.svg"`, pero la carpeta no existe (en DevTools → Red sale `404`). Copia las seis imágenes a `public/img/recetas/`:
 
 ```bash
 git checkout puesta-al-dia-catalogo -- public/img
