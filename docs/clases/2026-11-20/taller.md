@@ -9,7 +9,7 @@ tags: [clase, frontend, taller]
 # Taller · Datos reales desde su API
 
 **Programación IV · Frontend · UNIAJC · 20 de noviembre de 2026**
-En parejas. 70 minutos en clase y el resto en casa. **Entrega: 27-nov-2026, antes de clase.**
+En parejas, en casa. **Entrega: 27-nov-2026, antes de clase.**
 
 Guía del profesor: [[Guia 2026-11-20 - Datos reales desde la API]]
 
@@ -17,37 +17,22 @@ Guía del profesor: [[Guia 2026-11-20 - Datos reales desde la API]]
 
 Que su listado y su portada muestren los datos reales de **su** API, que cada elemento tenga su propia página de detalle y que, si la API falla durante el build, el sitio no se rompa.
 
-**No se copia SaborU: se traduce.** El código de referencia está en la rama `api-2026-11-20` del repositorio del grupo 10. Cambien la dirección, los nombres de los campos y lo que estiman según **su** API.
+**No se copia SaborU: se traduce.** El código de referencia está en la rama `main` del repositorio del grupo 10 (SaborU). Cambien la dirección, los nombres de los campos y lo que estiman según **su** API.
 
-## Antes de empezar (10 min)
+## Punto de partida: lo que se hizo en clase
 
-- [ ] El taller de **puesta al día del catálogo** está integrado en `main`: tarjetas con datos de prueba, `CardGrid`, `/estados` y destacados.
-- [ ] `git switch main`, `git pull` y `npm run build` sin errores.
-- [ ] Rama nueva: `git switch -c feature/datos-api`.
-- [ ] Abran en el navegador **la dirección de su API** que devuelve la lista y anoten:
+En clase ya quedó, en su rama `feature/datos-api`:
 
-| Pregunta | Su respuesta |
-|---|---|
-| ¿Qué dirección devuelve la lista? | |
-| ¿La lista viene directa (`[ … ]`) o dentro de un campo (`{ "results": [ … ] }`)? | |
-| ¿Cómo se llama el campo de cada dato de su tarjeta? (nombre, imagen, categoría…) | |
-| ¿Qué dato de su tarjeta **no** viene en la API? ¿Cómo lo van a estimar o qué van a mostrar? | |
-| ¿Pide clave? | |
+- `src/services/api.js` con `obtenerX()`: `fetch`, `await` y `respuesta.json()`.
+- El adaptador `adaptarX(item)`, que traduce cada elemento de su API al formato de sus datos de prueba.
+- Su listado con `await obtenerX()` y datos reales.
+- La red de seguridad: `AbortSignal.timeout`, `respuesta.ok` y `try/catch` que devuelve sus datos de prueba.
+
+Antes de seguir, verifiquen que `npm run build` termina sin errores. Si algo de esa lista les falta, complétenlo primero: el código de referencia está en la rama `main` del repositorio del grupo 10 (SaborU).
 
 > Si su API pide una clave secreta, consulten con el profesor antes de seguir: la clave **nunca** se escribe en un archivo que se sube a GitHub.
 
-## Parte 1 · En clase (70 min)
-
-| Orden | Qué | Listo cuando… |
-|---|---|---|
-| 1 | `src/services/api.js` con `obtenerX()`: `fetch`, `await`, `respuesta.json()` | En la terminal, un `console.log` muestra un elemento de su API |
-| 2 | `adaptarX(item)`: traduce un elemento de su API al formato de sus datos de prueba | Sus tarjetas se ven igual que con los datos de prueba, sin cambiar `Card` (solo la línea de la imagen si viene con `https://`) |
-| 3 | Su listado usa `await obtenerX()` | Se ven datos reales y el conteo dice cuántos llegaron |
-| 4 | Red de seguridad: `AbortSignal.timeout`, `respuesta.ok` y `try/catch` que devuelve sus datos de prueba | Con la dirección mal escrita, `npm run build` termina y muestra su aviso en la terminal |
-| 5 | `npm run build` y commit | Sin errores |
-| 6 | Preparar la publicación desde la rama `gh-pages` (`.nojekyll`, `gh-pages`, script `deploy`; ver abajo). Si ya lo hicieron en el taller de puesta al día del catálogo, sáltenlo | `npm run deploy` termina con `Published` y la URL abre su sitio con estilos |
-
-## Parte 2 · En casa (hasta el 27-nov)
+## Lo que hay que hacer en casa (hasta el 27-nov)
 
 1. **Página de detalle** `src/pages/<listado>/[id].astro` con `getStaticPaths`: una página por elemento, con imagen grande, título, etiquetas, la información que dé su API y un enlace "Volver". Debe parecerse a su mockup de detalle. **El código completo, paso a paso, está en el Anexo al final de este taller.**
 2. **Las tarjetas enlazan al detalle** (el `href` del título apunta a `${base}<listado>/${id}`) y ninguna da 404.
@@ -60,6 +45,8 @@ Que su listado y su portada muestren los datos reales de **su** API, que cada el
    ```javascript
    document.documentElement.scrollWidth === document.documentElement.clientWidth
    ```
+
+8. **Publicar desde la rama `gh-pages`:** `.nojekyll`, `gh-pages`, el script `deploy` y la configuración de Pages (sección «Publicar en GitHub Pages» más abajo). Si ya lo hicieron en el taller de puesta al día del catálogo, solo corran `npm run deploy` después del merge.
 
 ## Entrega: el taller debe quedar integrado en `main`
 
