@@ -4,8 +4,20 @@ import Filtros from "../components/catalogo/Filtros.astro";
 import BarraDeBusqueda from "../components/catalogo/BarraDeBusqueda.astro";
 import CardGrid from "../components/catalogo/CardGrid.astro";
 import Paginacion from "../components/catalogo/Paginacion.astro";
-import { recetas, categorias, dificultades } from "../data/datos-de-prueba.js";
+import { obtenerRecetas } from "../services/api.js";
+
+// Se ejecuta UNA vez, durante el build. El HTML publicado ya trae las recetas.
+const recetas = await obtenerRecetas();
+
+// Los filtros salen de los datos reales: si la API agrega una categoria, aparece sola.
+const categorias = [...new Set(recetas.map((r) => r.categoria))].sort();
+const dificultades = ["Facil", "Media", "Dificil"].filter((d) => recetas.some((r) => r.dificultad === d));
+
+// Seis por pagina, como el mockup. Las otras paginas se activan con JavaScript despues.
+const POR_PAGINA = 6;
+const paginas = Math.ceil(recetas.length / POR_PAGINA);
 ---
+
 
 <Layout
   titulo="Catalogo — SaborU"
@@ -28,8 +40,8 @@ import { recetas, categorias, dificultades } from "../data/datos-de-prueba.js";
         <p class="catalogo__conteo" role="status">
           <strong>{recetas.length}</strong> recetas encontradas
         </p>
-        <CardGrid recetas={recetas} />
-        <Paginacion actual={1} total={3} />
+        <CardGrid recetas={recetas.slice(0, POR_PAGINA)} />
+        <Paginacion actual={1} total={paginas} />
       </div>
     </div>
   </div>

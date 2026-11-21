@@ -6,6 +6,8 @@ import Etiqueta from "../ui/Etiqueta.astro";
 const { receta } = Astro.props;
 const { id, nombre, categoria, area, imagen, minutos, dificultad } = receta;
 const base = import.meta.env.BASE_URL;
+// Las imagenes de prueba son locales (img/recetas/...); las de la API ya traen https://
+const src = imagen.startsWith("http") ? imagen : `${base}${imagen}`;
 ---
 
 <article class="tarjeta">
@@ -13,7 +15,7 @@ const base = import.meta.env.BASE_URL;
     <!-- width y height reservan el espacio antes de que llegue la imagen -->
     <img
       class="tarjeta__imagen"
-      src={`${base}${imagen}`}
+      src={src} 
       alt=""
       width="400"
       height="300"

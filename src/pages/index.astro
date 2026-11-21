@@ -2,9 +2,10 @@
 import Layout from "../layouts/Layout.astro";
 import Boton from "../components/ui/Boton.astro";
 import CardGrid from "../components/catalogo/CardGrid.astro";
-import { recetas } from "../data/datos-de-prueba.js";
+import { obtenerRecetas } from "../services/api.js";
 
 const base = import.meta.env.BASE_URL;
+const recetas = await obtenerRecetas();
 ---
 
 <Layout
