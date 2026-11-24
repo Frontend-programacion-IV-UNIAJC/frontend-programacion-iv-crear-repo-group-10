@@ -1,0 +1,85 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Filtros from "../components/catalogo/Filtros.astro";
+import BarraDeBusqueda from "../components/catalogo/BarraDeBusqueda.astro";
+import CardGrid from "../components/catalogo/CardGrid.astro";
+import Paginacion from "../components/catalogo/Paginacion.astro";
+import { obtenerRecetas } from "../services/api.js";
+
+// Se ejecuta UNA vez, durante el build. El HTML publicado ya trae las recetas.
+const recetas = await obtenerRecetas();
+
+// Los filtros salen de los datos reales: si la API agrega una categoria, aparece sola.
+const categorias = [...new Set(recetas.map((r) => r.categoria))].sort();
+const dificultades = ["Facil", "Media", "Dificil"].filter((d) => recetas.some((r) => r.dificultad === d));
+
+// Seis por pagina, como el mockup. Las otras paginas se activan con JavaScript despues.
+const POR_PAGINA = 6;
+const paginas = Math.ceil(recetas.length / POR_PAGINA);
+---
+
+
+<Layout
+  titulo="Catalogo — SaborU"
+  descripcion="Catalogo de recetas rapidas con tiempo y dificultad visibles."
+  activo="catalogo"
+>
+  <div class="contenedor">
+    <p class="rotulo">Catalogo</p>
+    <h1>Que puedes cocinar hoy</h1>
+    <p class="entrada">
+      Filtra por categoria o por dificultad. Cada ficha indica cuanto tarda de
+      verdad, no cuanto dura el video.
+    </p>
+
+    <div class="catalogo">
+      <Filtros categorias={categorias} dificultades={dificultades} />
+
+      <div class="catalogo__resultados">
+        <BarraDeBusqueda />
+        <p class="catalogo__conteo" role="status">
+          <strong>{recetas.length}</strong> recetas encontradas
+        </p>
+        <CardGrid recetas={recetas.slice(0, POR_PAGINA)} />
+        <Paginacion actual={1} total={paginas} />
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .entrada {
+    max-width: var(--ancho-lectura);
+    color: var(--color-texto-suave);
+  }
+
+  /* Celular: filtros arriba y resultados debajo (una sola columna) */
+  .catalogo {
+    display: grid;
+    gap: var(--esp-4);
+    margin-top: var(--esp-5);
+  }
+
+  /* Escritorio: barra lateral de 240 px y el resto para las tarjetas */
+  @media (min-width: 900px) {
+    .catalogo {
+      grid-template-columns: 240px 1fr;
+      gap: var(--esp-5);
+      align-items: start;
+    }
+  }
+
+  .catalogo__resultados {
+    min-width: 0; /* un hijo de Grid no se encoge por debajo de su contenido sin esto */
+  }
+
+  .catalogo__conteo {
+    margin: var(--esp-3) 0;
+    font-size: var(--texto-s);
+    color: var(--color-texto-suave);
+  }
+
+  .catalogo__conteo strong {
+    color: var(--color-texto);
+  }
+</style>

@@ -1,0 +1,119 @@
+---
+import Layout from "../layouts/Layout.astro";
+import CardGrid from "../components/catalogo/CardGrid.astro";
+import Esqueleto from "../components/ui/Esqueleto.astro";
+import Estado from "../components/ui/Estado.astro";
+import Boton from "../components/ui/Boton.astro";
+import { recetas } from "../data/datos-de-prueba.js";
+
+const base = import.meta.env.BASE_URL;
+---
+
+<Layout
+  titulo="Los cuatro estados — SaborU"
+  descripcion="Referencia de interfaz: cargando, con datos, vacio y error."
+  activo="catalogo"
+>
+  <div class="contenedor">
+    <p class="rotulo">Referencia de interfaz</p>
+    <h1>Los cuatro estados</h1>
+    <p class="entrada">
+      Toda pantalla que muestra datos existe en cuatro versiones. Disenar solo
+      la segunda es disenar la cuarta parte de la pantalla.
+    </p>
+
+    <section class="bloque">
+      <h2>1. Cargando</h2>
+      <p class="bloque__ayuda">Bloques con la forma del contenido que va a llegar.</p>
+      <Esqueleto cantidad={3} />
+    </section>
+
+    <section class="bloque">
+      <h2>2. Con datos</h2>
+      <p class="bloque__ayuda">El caso que todo el mundo disena.</p>
+      <CardGrid recetas={recetas.slice(0, 3)} />
+    </section>
+
+    <section class="bloque">
+      <h2>3. Vacio</h2>
+      <p class="bloque__ayuda">Dice que paso, por que, y ofrece una salida.</p>
+      <Estado
+        tipo="vacio"
+        titulo="No encontramos recetas con ese filtro"
+        mensaje="Prueba con menos filtros o busca por un ingrediente que tengas en la nevera."
+      >
+        <Boton href={`${base}catalogo`}>Ver todas las recetas</Boton>
+      </Estado>
+    </section>
+
+    <section class="bloque">
+      <h2>4. Error</h2>
+      <p class="bloque__ayuda">En espanol y sin codigos. El usuario no tiene la culpa de que la red falle.</p>
+      <Estado
+        tipo="error"
+        titulo="No pudimos cargar las recetas"
+        mensaje="Puede ser tu conexion o el servicio de recetas. Vuelve a intentarlo en unos segundos."
+      >
+        <Boton>Reintentar</Boton>
+      </Estado>
+    </section>
+
+    <aside class="aviso">
+      <p class="aviso__titulo">Aviso tecnico para cuando lleguen los datos reales</p>
+      <p>
+        Cuando la API no encuentra resultados devuelve <code>meals: null</code>,
+        no una lista vacia. Ese caso es el estado <em>Vacio</em>,
+        no el de <em>Error</em>. Confundirlos es el fallo mas comun.
+      </p>
+    </aside>
+  </div>
+</Layout>
+
+<style>
+  .entrada {
+    max-width: var(--ancho-lectura);
+    color: var(--color-texto-suave);
+  }
+
+  .bloque {
+    padding-top: var(--esp-5);
+    margin-top: var(--esp-5);
+    border-top: 1px solid var(--color-borde);
+  }
+
+  .bloque h2 {
+    margin-bottom: var(--esp-1);
+  }
+
+  .bloque__ayuda {
+    margin: 0 0 var(--esp-4);
+    font-size: var(--texto-s);
+    color: var(--color-texto-suave);
+  }
+
+  .aviso {
+    margin-top: var(--esp-6);
+    padding: var(--esp-4);
+    background: var(--color-marca-suave);
+    border: 1px solid var(--color-marca-borde);
+    border-radius: var(--radio-m);
+  }
+
+  .aviso p {
+    margin: 0;
+  }
+
+  .aviso__titulo {
+    font-weight: 700;
+    color: var(--color-marca-oscuro);
+    margin-bottom: var(--esp-1) !important;
+  }
+
+  .aviso code {
+    padding: 0.1rem 0.35rem;
+    background: var(--color-fondo);
+    border: 1px solid var(--color-borde);
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+</style>

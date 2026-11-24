@@ -1,0 +1,193 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout
+  titulo="Acerca de — SaborU"
+  descripcion="Que problema resuelve SaborU, para quien se construyo y con que decisiones de diseno."
+  activo="acerca"
+>
+  <div class="contenedor">
+    <div class="disposicion">
+      <article class="texto">
+        <p class="rotulo">Acerca de</p>
+        <h1>Por que existe SaborU</h1>
+
+        <h2>El problema</h2>
+        <p>
+          Un estudiante universitario que vive solo necesita decidir rapido que
+          cocinar con lo que tiene, porque dispone de poco tiempo y poco dinero,
+          pero las recetas que encuentra estan en videos largos, sin lista clara
+          de ingredientes y pensadas para cocinas equipadas.
+        </p>
+
+        <h2>Para quien es</h2>
+        <p>
+          Para Camila, de 20 anos, que llega a las ocho de la noche con hambre y
+          cocina mirando el celular con las manos ocupadas. Y para don Hernan, de
+          58, que vive solo desde hace un ano, nunca cocino antes y necesita
+          seguir una receta paso a paso sin perderse.
+        </p>
+        <p>
+          De esas dos personas salieron dos decisiones que atraviesan todo el
+          producto: filtrar por lo que ya se tiene en la nevera, y un cuerpo de
+          texto que nunca baja de 16 pixeles.
+        </p>
+
+        <h2>Decisiones de diseno</h2>
+        <ul class="lista">
+          <li>
+            El tiempo de preparacion aparece en la tarjeta, no dentro de la
+            receta: es el dato que decide si se entra o no.
+          </li>
+          <li>
+            El boton de volver es explicito y esta arriba. No se confia en el
+            gesto del navegador.
+          </li>
+          <li>
+            Cada pantalla con datos esta disenada en sus cuatro estados: cargando,
+            con datos, vacia y con error.
+          </li>
+          <li>
+            El color de marca senala una sola cosa por pantalla: la accion
+            principal.
+          </li>
+        </ul>
+
+        <h2>Creditos</h2>
+        <p>
+          Las recetas provienen de
+          <a href="https://www.themealdb.com" rel="noopener">TheMealDB</a>, una
+          API publica y gratuita. Usar datos de terceros sin darles credito es
+          una falta, no un olvido.
+        </p>
+      </article>
+
+      <aside class="ficha">
+        <h2 class="ficha__titulo">Ficha tecnica</h2>
+        <dl class="ficha__lista">
+          <div>
+            <dt>Generador</dt>
+            <dd>Astro, sitio estatico</dd>
+          </div>
+          <div>
+            <dt>Estilos</dt>
+            <dd>CSS propio, con variables y alcance por componente</dd>
+          </div>
+          <div>
+            <dt>Datos</dt>
+            <dd>TheMealDB</dd>
+          </div>
+          <div>
+            <dt>Publicacion</dt>
+            <dd>GitHub Pages con GitHub Actions</dd>
+          </div>
+          <div>
+            <dt>JavaScript enviado</dt>
+            <dd>0 kB</dd>
+          </div>
+        </dl>
+      </aside>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .disposicion {
+    display: grid;
+    gap: var(--esp-5);
+  }
+
+  @media (min-width: 900px) {
+    .disposicion {
+      grid-template-columns: 1.3fr 0.7fr;
+      gap: var(--esp-6);
+      align-items: start;
+    }
+  }
+
+  .texto {
+    max-width: var(--ancho-lectura);
+  }
+
+  .texto h2 {
+    margin-top: var(--esp-5);
+  }
+
+  .texto p {
+    color: var(--color-texto-suave);
+  }
+
+  .lista {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: var(--esp-3);
+    color: var(--color-texto-suave);
+  }
+
+  .lista li {
+    display: flex;
+    gap: var(--esp-2);
+    align-items: baseline;
+  }
+
+  .lista li::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: var(--radio-pildora);
+    background: var(--color-marca);
+    flex-shrink: 0;
+  }
+
+  /* ---- Ficha tecnica ---- */
+
+  .ficha {
+    background: var(--color-fondo);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-m);
+    padding: var(--esp-4);
+  }
+
+  @media (min-width: 900px) {
+    .ficha {
+      position: sticky;
+      top: 7.5rem;
+    }
+  }
+
+  .ficha__titulo {
+    font-size: var(--texto-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-family: var(--fuente-texto);
+    font-weight: 700;
+    color: var(--color-texto-tenue);
+    margin: 0 0 var(--esp-3);
+  }
+
+  .ficha__lista {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--esp-3);
+  }
+
+  .ficha__lista dt {
+    font-size: var(--texto-xs);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-texto-tenue);
+    margin-bottom: 2px;
+  }
+
+  .ficha__lista dd {
+    margin: 0;
+    font-size: var(--texto-s);
+    font-weight: 600;
+    color: var(--color-texto);
+  }
+</style>

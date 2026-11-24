@@ -1,0 +1,68 @@
+---
+// Estado.astro
+// "Vacio" y "Error" comparten la misma estructura: icono, titulo,
+// explicacion y una salida. Solo cambian el icono, el color y los textos.
+const { tipo = "vacio", titulo, mensaje } = Astro.props;
+const esError = tipo === "error";
+---
+
+<div class:list={["estado", { "estado--error": esError }]} role={esError ? "alert" : "status"}>
+  <span class="estado__icono" aria-hidden="true">
+    {esError ? (
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <circle cx="12" cy="12" r="9" />
+        <path d="M12 7.5v5.5M12 16.5v.01" />
+      </svg>
+    ) : (
+      <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round">
+        <path d="M4 13h16" />
+        <path d="M6 13a6 6 0 0 0 12 0" />
+        <path d="M9 7.5C9 6 10.3 5 12 5s3 1 3 2.5" />
+      </svg>
+    )}
+  </span>
+  <h3 class="estado__titulo">{titulo}</h3>
+  <p class="estado__mensaje">{mensaje}</p>
+  <div class="estado__accion">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .estado {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: var(--esp-6) var(--esp-4);
+    background: var(--color-fondo);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-m);
+  }
+
+  .estado__icono {
+    display: grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    margin-bottom: var(--esp-3);
+    border-radius: var(--radio-pildora);
+    background: var(--color-superficie);
+    color: var(--color-texto-suave);
+  }
+
+  .estado--error .estado__icono {
+    background: var(--color-error-suave);
+    color: var(--color-error);
+  }
+
+  .estado__titulo {
+    margin: 0 0 var(--esp-2);
+  }
+
+  .estado__mensaje {
+    max-width: 46ch;
+    margin: 0 0 var(--esp-4);
+    color: var(--color-texto-suave);
+  }
+</style>

@@ -1,0 +1,98 @@
+---
+// Filtros.astro
+// Una fila desplazable en el celular; una barra lateral en escritorio.
+// Hoy solo se ven. Empiezan a filtrar cuando agreguemos JavaScript.
+const { categorias = [], dificultades = [] } = Astro.props;
+---
+
+<aside class="filtros" aria-label="Filtros del catalogo">
+  <div class="filtros__grupo">
+    <p class="filtros__titulo">Categoria</p>
+    <ul class="filtros__lista">
+      <li><button class="filtro" type="button" aria-pressed="true">Todas</button></li>
+      {categorias.map((c) => (
+        <li><button class="filtro" type="button" aria-pressed="false">{c}</button></li>
+      ))}
+    </ul>
+  </div>
+
+  <div class="filtros__grupo">
+    <p class="filtros__titulo">Dificultad</p>
+    <ul class="filtros__lista">
+      {dificultades.map((d) => (
+        <li><button class="filtro" type="button" aria-pressed="false">{d}</button></li>
+      ))}
+    </ul>
+  </div>
+</aside>
+
+<style>
+  .filtros {
+    display: flex;
+    flex-direction: column;
+    gap: var(--esp-3);
+    min-width: 0; /* sin esto, la fila larga empuja la pagina hacia el lado */
+  }
+
+  .filtros__titulo {
+    margin: 0 0 var(--esp-2);
+    font-size: var(--texto-xs);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--color-texto-tenue);
+  }
+
+  /* Celular: una fila que se desplaza de lado */
+  .filtros__lista {
+    display: flex;
+    gap: var(--esp-2);
+    list-style: none;
+    margin: 0;
+    padding: 0 0 var(--esp-1);
+    overflow-x: auto;
+  }
+
+  .filtro {
+    min-height: 40px;
+    padding: 0 var(--esp-3);
+    font: inherit;
+    font-size: var(--texto-s);
+    font-weight: 600;
+    white-space: nowrap;
+    color: var(--color-texto-suave);
+    background: var(--color-fondo);
+    border: 1px solid var(--color-borde-fuerte);
+    border-radius: var(--radio-pildora);
+    cursor: pointer;
+  }
+
+  .filtro:hover {
+    border-color: var(--color-marca);
+    color: var(--color-marca);
+  }
+
+  .filtro[aria-pressed="true"] {
+    background: var(--color-marca);
+    border-color: var(--color-marca);
+    color: #ffffff;
+  }
+
+  /* Escritorio: tarjeta lateral y botones uno debajo del otro */
+  @media (min-width: 900px) {
+    .filtros {
+      gap: var(--esp-5);
+      padding: var(--esp-4);
+      background: var(--color-fondo);
+      border: 1px solid var(--color-borde);
+      border-radius: var(--radio-m);
+    }
+
+    .filtros__lista {
+      flex-direction: column;
+      align-items: flex-start;
+      overflow: visible;
+      padding: 0;
+    }
+  }
+</style>
